@@ -12,8 +12,8 @@ app.secret_key = "soupkitchen_secret_2026_new"
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = False
 
-DATA_DIR = "data/raw"
-os.makedirs(DATA_DIR, exist_ok=True)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data/raw")
 
 model = None
 feature_names = []
@@ -637,4 +637,4 @@ def session_info():
     return jsonify({"role": "visitor", "name": ""})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=10000)
