@@ -1,41 +1,41 @@
-item,quantity
-Canned Corn,30
-Canned Tomatoes,60
-Pasta,40
-Rice,40
-Canned Beans,25
-Bread,100
-Potatoes,50
-Carrots,30
-Onions,40
-Canned Chicken,20
-Powdered Milk,15
-Flour,25
-Sugar,20
-Salt,10
-Olive Oil,8
-Canned Tuna,35
-Lentils,45
-Oats,28
-Apples,60
-Bananas,40
-Cheese,12
-Eggs,100
-Canned Soup Base,18
-Spice Mix,5
-Frozen Vegetables,30
-Ground Beef,15
-Chicken Breasts,25
-Fresh Tomatoes,35
-Lettuce,20
-Cabbage,15
-Bell Peppers,25
-Garlic,10
-Pasta Sauce,40
-Cereal,22
-Peanut Butter,18
-Jam,12
-Canned Sardines,30
-Dried Herbs,8
-Yeast,5
-Baking Powder,6
+item,quantity,expiry_date
+Canned Corn,30,2028-05-17
+Canned Tomatoes,60,2028-01-03
+Pasta,40,2027-12-12
+Rice,40,2028-06-12
+Canned Beans,25,2028-02-14
+Bread,100,2026-03-30
+Potatoes,50,2026-04-23
+Carrots,30,2026-04-13
+Onions,40,2026-04-21
+Canned Chicken,20,2028-05-27
+Powdered Milk,15,2027-05-04
+Flour,25,2027-04-09
+Sugar,20,2027-12-28
+Salt,10,2031-08-30
+Olive Oil,8,2027-02-03
+Canned Tuna,35,2027-12-13
+Lentils,45,2027-12-29
+Oats,28,2027-02-26
+Apples,60,2026-04-07
+Bananas,40,2026-04-02
+Cheese,12,2026-04-16
+Eggs,100,2026-04-12
+Canned Soup Base,18,2028-04-27
+Spice Mix,5,2027-02-24
+Frozen Vegetables,30,2026-10-09
+Ground Beef,15,2026-03-28
+Chicken Breasts,25,2026-03-28
+Fresh Tomatoes,35,2026-04-01
+Lettuce,20,2026-03-30
+Cabbage,15,2026-04-06
+Bell Peppers,25,2026-04-03
+Garlic,10,2026-04-26
+Pasta Sauce,40,2027-03-14
+Cereal,22,2026-09-11
+Peanut Butter,18,2027-02-18
+Jam,12,2027-02-26
+Canned Sardines,30,2028-06-18
+Dried Herbs,8,2027-03-14
+Yeast,5,2026-08-31
+Baking Powder,6,2027-02-10

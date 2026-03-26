@@ -3,653 +3,617 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🍲 Soup Kitchen Assistant</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>🍲 Soup Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --bg2: #111111;
-    --bg3: #181818;
-    --card: #141414;
-    --border: #2a2a2a;
-    --border2: #333333;
-    --accent: #FF6B35;
-    --accent2: #FFB347;
-    --accent3: #4ECDC4;
-    --green: #56CF85;
-    --red: #FF4757;
-    --yellow: #FFD93D;
-    --blue: #5B8DEF;
-    --text: #F0F0F0;
-    --text2: #AAAAAA;
-    --text3: #666666;
-    --font-display: 'Syne', sans-serif;
-    --font-mono: 'Space Mono', monospace;
-    --font-body: 'DM Sans', sans-serif;
-    --radius: 12px;
-    --radius-lg: 20px;
+    --sky: #D6EFFF;
+    --sky2: #C0E4FF;
+    --sky3: #A8D8F0;
+    --white: #FFFFFF;
+    --card: #FFFFFF;
+    --border: #B8D9F0;
+    --border2: #8EC4E8;
+    --accent: #FF7043;
+    --accent2: #FFA726;
+    --accent3: #26C6DA;
+    --green: #2E7D32;
+    --green-bg: #E8F5E9;
+    --green-border: #A5D6A7;
+    --red: #C62828;
+    --red-bg: #FFEBEE;
+    --red-border: #EF9A9A;
+    --orange: #E65100;
+    --orange-bg: #FFF3E0;
+    --orange-border: #FFCC80;
+    --yellow: #F57F17;
+    --yellow-bg: #FFFDE7;
+    --yellow-border: #FFF176;
+    --blue: #1565C0;
+    --blue-bg: #E3F2FD;
+    --blue-border: #90CAF9;
+    --text: #1A2744;
+    --text2: #3D5A7A;
+    --text3: #7B9AB5;
+    --font-title: 'Fredoka One', cursive;
+    --font-body: 'Nunito', sans-serif;
+    --radius: 18px;
+    --radius-lg: 26px;
+    --shadow: 0 4px 20px rgba(100,160,220,0.15);
+    --shadow-lg: 0 8px 40px rgba(100,160,220,0.22);
   }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+
   body {
-    background: var(--bg);
+    background: var(--sky);
     color: var(--text);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.7;
     min-height: 100vh;
   }
-  ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: var(--bg2); }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+  /* clouds / soft bg pattern */
+  body::before {
+    content: '';
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 600px 200px at 10% 5%, rgba(255,255,255,0.55), transparent),
+      radial-gradient(ellipse 400px 150px at 80% 8%, rgba(255,255,255,0.45), transparent),
+      radial-gradient(ellipse 500px 180px at 50% 95%, rgba(168,216,240,0.4), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--sky2); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 6px; }
 
   /* ===== NAVBAR ===== */
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 2px solid var(--border);
     padding: 0 2rem;
     display: flex; align-items: center; justify-content: space-between;
-    height: 68px;
+    height: 76px;
     gap: 16px;
+    box-shadow: 0 2px 16px rgba(100,160,220,0.12);
   }
+
   .nav-logo {
-    font-family: var(--font-display);
-    font-size: 1.3rem; font-weight: 800;
-    color: var(--text);
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    color: var(--accent);
     display: flex; align-items: center; gap: 10px;
     text-decoration: none;
-    letter-spacing: -0.5px;
-    white-space: nowrap;
-    flex-shrink: 0;
+    white-space: nowrap; flex-shrink: 0;
+    letter-spacing: 0.5px;
+    text-shadow: 2px 2px 0 rgba(255,112,67,0.15);
   }
-  .nav-logo span { color: var(--accent); }
   .nav-logo .logo-icon {
-    width: 36px; height: 36px;
+    width: 44px; height: 44px;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 10px;
+    border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-    box-shadow: 0 0 20px rgba(255,107,53,0.4);
+    font-size: 1.4rem;
+    box-shadow: 0 4px 14px rgba(255,112,67,0.3);
     flex-shrink: 0;
   }
+
   .nav-tabs {
-    display: flex; gap: 4px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
+    display: flex; gap: 6px;
+    background: var(--sky);
+    border: 2px solid var(--border);
     border-radius: 50px;
-    padding: 4px;
+    padding: 5px;
   }
   .nav-tab {
-    padding: 7px 18px;
-    border-radius: 50px;
-    border: none;
-    background: transparent;
-    color: var(--text2);
-    font-family: var(--font-body);
-    font-size: 0.9rem; font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
+    padding: 8px 22px; border-radius: 50px; border: none;
+    background: transparent; color: var(--text2);
+    font-family: var(--font-body); font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: all 0.22s; white-space: nowrap;
   }
-  .nav-tab:hover { color: var(--text); background: var(--bg3); }
-  .nav-tab.active {
-    background: var(--accent);
-    color: white;
-    font-weight: 600;
-    box-shadow: 0 0 14px rgba(255,107,53,0.4);
-  }
-  /* Hide certain tabs based on role */
+  .nav-tab:hover { color: var(--accent); background: rgba(255,112,67,0.08); }
+  .nav-tab.active { background: var(--accent); color: white; box-shadow: 0 4px 14px rgba(255,112,67,0.3); }
   .nav-tab[data-role="host"], .nav-tab[data-role="cook"] { display: none; }
   body.role-host .nav-tab[data-role="host"] { display: block; }
   body.role-cook .nav-tab[data-role="cook"] { display: block; }
 
-  .nav-right {
-    display: flex; align-items: center; gap: 10px;
-    flex-shrink: 0;
-  }
+  .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
   .role-badge {
-    font-size: 0.8rem; font-weight: 600;
-    padding: 4px 12px; border-radius: 50px;
-    font-family: var(--font-mono);
-    display: none;
-    white-space: nowrap;
+    font-size: 0.9rem; font-weight: 800;
+    padding: 6px 16px; border-radius: 50px;
+    font-family: var(--font-body);
+    display: none; white-space: nowrap;
   }
-  .role-badge.host { background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.3); color: var(--accent); }
-  .role-badge.cook { background: rgba(78,205,196,0.15); border: 1px solid rgba(78,205,196,0.3); color: var(--accent3); }
-  .role-badge.guest { background: rgba(86,207,133,0.15); border: 1px solid rgba(86,207,133,0.3); color: var(--green); }
+  .role-badge.host { background: var(--orange-bg); border: 2px solid var(--orange-border); color: var(--orange); }
+  .role-badge.cook { background: var(--blue-bg); border: 2px solid var(--blue-border); color: var(--blue); }
+  .role-badge.guest { background: var(--green-bg); border: 2px solid var(--green-border); color: var(--green); }
   .role-badge.visible { display: block; }
   .btn-nav-signout {
-    padding: 6px 14px; border-radius: 8px;
-    border: 1px solid var(--border2); background: transparent;
-    color: var(--text3); font-size: 0.85rem; cursor: pointer;
-    font-family: var(--font-body);
-    transition: all 0.2s;
-    display: none;
+    padding: 7px 16px; border-radius: 50px;
+    border: 2px solid var(--red-border); background: var(--red-bg);
+    color: var(--red); font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    font-family: var(--font-body); transition: all 0.2s; display: none;
   }
   .btn-nav-signout.visible { display: block; }
-  .btn-nav-signout:hover { border-color: var(--red); color: var(--red); }
+  .btn-nav-signout:hover { background: var(--red); color: white; }
 
   /* ===== HERO ===== */
   .hero {
-    padding: 70px 2rem 50px;
+    position: relative; z-index: 1;
+    padding: 64px 2rem 50px;
     text-align: center;
-    position: relative;
-    overflow: hidden;
   }
-  .hero::before {
-    content: '';
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 700px; height: 300px;
-    background: radial-gradient(ellipse, rgba(255,107,53,0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,107,53,0.1);
-    border: 1px solid rgba(255,107,53,0.25);
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.8rem; font-weight: 700;
-    padding: 5px 16px; border-radius: 50px;
-    margin-bottom: 24px;
-    letter-spacing: 0.05em;
-  }
-  .hero-tag::before { content: '●'; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-emoji { font-size: 4rem; display: block; margin-bottom: 10px; animation: wobble 3s ease-in-out infinite; }
+  @keyframes wobble { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
   .hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -2px;
-    margin-bottom: 16px;
+    font-family: var(--font-title);
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
   }
   .hero h1 em { color: var(--accent); font-style: normal; }
   .hero p {
-    font-size: 1.1rem;
+    font-size: 1.25rem; font-weight: 600;
     color: var(--text2);
-    max-width: 580px; margin: 0 auto 32px;
+    max-width: 580px; margin: 0 auto 36px;
     line-height: 1.6;
   }
   .hero-stats {
-    display: flex; justify-content: center; gap: 50px;
-    padding-top: 36px;
-    border-top: 1px solid var(--border);
-    max-width: 680px; margin: 0 auto;
+    display: flex; justify-content: center; gap: 20px;
+    flex-wrap: wrap; max-width: 760px; margin: 0 auto;
   }
-  .hero-stat { text-align: center; }
+  .hero-stat {
+    background: white; border: 2px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px 32px;
+    text-align: center; box-shadow: var(--shadow);
+    min-width: 140px;
+  }
   .hero-stat .num {
-    font-family: var(--font-display);
-    font-size: 2rem; font-weight: 800;
-    color: var(--accent); letter-spacing: -1px;
-    line-height: 1;
+    font-family: var(--font-title);
+    font-size: 2.6rem; color: var(--accent); line-height: 1;
   }
-  .hero-stat .label { font-size: 0.85rem; color: var(--text3); margin-top: 4px; }
+  .hero-stat .label { font-size: 1rem; font-weight: 700; color: var(--text2); margin-top: 4px; }
 
-  /* ===== MAIN LAYOUT ===== */
-  .main-wrap { max-width: 1280px; margin: 0 auto; padding: 0 2rem 80px; }
+  /* ===== MAIN ===== */
+  .main-wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem 80px; position: relative; z-index: 1; }
 
   /* ===== PANELS ===== */
   .panel { display: none; }
-  .panel.active { display: block; animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .panel.active { display: block; animation: fadeUp 0.35s ease; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
 
   /* ===== SECTION HEADER ===== */
   .section-header {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 24px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 22px; padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
   }
   .section-title {
-    font-family: var(--font-display);
-    font-size: 1.6rem; font-weight: 700;
-    letter-spacing: -0.5px;
-    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-title);
+    font-size: 2rem; color: var(--text);
+    display: flex; align-items: center; gap: 12px;
+    letter-spacing: 0.3px;
   }
   .section-title .icon {
-    width: 40px; height: 40px;
-    background: rgba(255,107,53,0.12);
-    border: 1px solid rgba(255,107,53,0.2);
-    border-radius: 10px;
+    width: 46px; height: 46px;
+    background: linear-gradient(135deg, var(--sky2), var(--sky3));
+    border: 2px solid var(--border);
+    border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow);
   }
 
   /* ===== CARDS ===== */
   .card {
     background: var(--card);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 26px;
-    transition: border-color 0.2s;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, border-color 0.2s;
   }
-  .card:hover { border-color: var(--border2); }
+  .card:hover { box-shadow: var(--shadow-lg); border-color: var(--border2); }
   .card-title {
-    font-family: var(--font-display);
-    font-size: 1.1rem; font-weight: 700;
+    font-family: var(--font-title);
+    font-size: 1.5rem; color: var(--text);
     margin-bottom: 18px;
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 10px;
+    letter-spacing: 0.3px;
   }
 
-  /* ===== GRID LAYOUTS ===== */
+  /* ===== GRIDS ===== */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
   .grid-forecast { display: grid; grid-template-columns: 360px 1fr; gap: 22px; align-items: start; }
 
-  /* ===== FORM ELEMENTS ===== */
+  /* ===== FORMS ===== */
   label {
     display: block;
-    font-size: 0.8rem; font-weight: 600;
-    color: var(--text2); margin-bottom: 7px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-size: 1rem; font-weight: 800;
+    color: var(--text2); margin-bottom: 8px;
+    font-family: var(--font-body);
+    text-transform: uppercase; letter-spacing: 0.06em;
   }
-  input[type="text"], input[type="email"], input[type="number"], input[type="password"], select {
+  input[type="text"], input[type="email"], input[type="number"],
+  input[type="password"], input[type="date"], select {
     width: 100%;
-    background: var(--bg2);
-    border: 1.5px solid var(--border);
+    background: var(--sky);
+    border: 2px solid var(--border);
     border-radius: var(--radius);
     color: var(--text);
     font-family: var(--font-body);
-    font-size: 1rem;
-    padding: 12px 16px;
+    font-size: 1.1rem; font-weight: 600;
+    padding: 13px 18px;
     transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
     -webkit-appearance: none;
+    color-scheme: light;
   }
   input:focus, select:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(255,107,53,0.12);
+    box-shadow: 0 0 0 4px rgba(255,112,67,0.15);
+    background: white;
   }
-  select option { background: var(--bg2); }
-  .form-group { margin-bottom: 16px; }
+  select option { background: white; }
+  .form-group { margin-bottom: 18px; }
+
   .toggle-row {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+    padding: 14px 0; border-bottom: 2px solid var(--border);
   }
   .toggle-row:last-child { border-bottom: none; }
-  .toggle-label { font-size: 0.98rem; font-weight: 500; }
-  .toggle-label small { display: block; color: var(--text3); font-size: 0.82rem; margin-top: 2px; }
-  .toggle { position: relative; display: inline-block; width: 50px; height: 26px; }
+  .toggle-label { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+  .toggle-label small { display: block; color: var(--text3); font-size: 0.92rem; font-weight: 600; margin-top: 2px; }
+  .toggle { position: relative; display: inline-block; width: 56px; height: 30px; }
   .toggle input { opacity: 0; width: 0; height: 0; }
   .toggle-slider {
     position: absolute; inset: 0;
-    background: var(--border2);
-    border-radius: 26px;
-    cursor: pointer;
-    transition: 0.3s;
+    background: var(--border2); border-radius: 30px;
+    cursor: pointer; transition: 0.3s;
   }
   .toggle-slider::before {
     content: '';
     position: absolute;
-    width: 18px; height: 18px;
-    left: 4px; top: 4px;
+    width: 22px; height: 22px; left: 4px; top: 4px;
     background: white; border-radius: 50%;
-    transition: 0.3s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   }
   .toggle input:checked + .toggle-slider { background: var(--accent); }
-  .toggle input:checked + .toggle-slider::before { transform: translateX(24px); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(26px); }
 
   /* ===== BUTTONS ===== */
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 24px;
-    border-radius: var(--radius);
+    padding: 14px 28px; border-radius: var(--radius);
     border: none; cursor: pointer;
-    font-family: var(--font-body); font-size: 1rem; font-weight: 600;
-    transition: all 0.2s;
-    text-decoration: none;
+    font-family: var(--font-body); font-size: 1.1rem; font-weight: 800;
+    transition: all 0.2s; text-decoration: none;
   }
   .btn-primary {
-    background: var(--accent);
-    color: white;
-    box-shadow: 0 4px 18px rgba(255,107,53,0.28);
+    background: var(--accent); color: white;
+    box-shadow: 0 5px 20px rgba(255,112,67,0.32);
   }
-  .btn-primary:hover {
-    background: #ff7a47;
-    box-shadow: 0 6px 26px rgba(255,107,53,0.42);
-    transform: translateY(-1px);
-  }
+  .btn-primary:hover { background: #F4511E; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,112,67,0.42); }
   .btn-outline {
-    background: transparent;
-    border: 1.5px solid var(--border2);
-    color: var(--text2);
+    background: white; border: 2px solid var(--border2); color: var(--text2);
   }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--orange-bg); }
   .btn-green {
-    background: rgba(86,207,133,0.12);
-    border: 1.5px solid rgba(86,207,133,0.3);
-    color: var(--green);
+    background: var(--green-bg); border: 2px solid var(--green-border); color: var(--green);
   }
-  .btn-green:hover { background: rgba(86,207,133,0.2); }
+  .btn-green:hover { background: #C8E6C9; }
   .btn-blue {
-    background: rgba(91,141,239,0.12);
-    border: 1.5px solid rgba(91,141,239,0.3);
-    color: var(--blue);
+    background: var(--blue-bg); border: 2px solid var(--blue-border); color: var(--blue);
   }
-  .btn-blue:hover { background: rgba(91,141,239,0.2); }
-  .btn-sm { padding: 7px 16px; font-size: 0.88rem; }
+  .btn-blue:hover { background: #BBDEFB; }
+  .btn-sm { padding: 8px 18px; font-size: 0.95rem; }
   .btn-block { width: 100%; justify-content: center; }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
   /* ===== METRIC BIG ===== */
-  .metric-big { text-align: center; padding: 36px 20px; }
+  .metric-big { text-align: center; padding: 34px 20px; }
   .metric-big .metric-value {
-    font-family: var(--font-display);
-    font-size: 5.5rem; font-weight: 800;
-    color: var(--accent); line-height: 1;
-    letter-spacing: -4px;
-    text-shadow: 0 0 60px rgba(255,107,53,0.3);
+    font-family: var(--font-title);
+    font-size: 5.5rem; color: var(--accent); line-height: 1;
+    letter-spacing: -2px;
     transition: all 0.5s;
   }
-  .metric-big .metric-label { font-size: 1rem; color: var(--text2); margin-top: 8px; font-weight: 500; }
-  .prep-pills {
-    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-    margin-top: 22px;
-  }
+  .metric-big .metric-label { font-size: 1.1rem; font-weight: 700; color: var(--text2); margin-top: 8px; }
+
+  .prep-pills { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
   .prep-pill {
     display: flex; flex-direction: column; align-items: center;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 14px 26px;
-    min-width: 130px;
+    background: var(--sky); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 16px 28px;
+    min-width: 140px; box-shadow: var(--shadow);
   }
   .prep-pill .prep-num {
-    font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
-    color: var(--accent2); letter-spacing: -1px;
+    font-family: var(--font-title); font-size: 2.2rem;
+    color: var(--accent2); line-height: 1;
   }
-  .prep-pill .prep-type { font-size: 0.85rem; color: var(--text3); margin-top: 4px; }
+  .prep-pill .prep-type { font-size: 1rem; font-weight: 700; color: var(--text2); margin-top: 4px; }
 
-  /* ===== ALERT ===== */
+  /* ===== ALERTS ===== */
   .alert {
-    border-radius: var(--radius); padding: 14px 18px;
-    font-size: 0.95rem; font-weight: 500;
-    display: flex; align-items: flex-start; gap: 10px;
-    margin-bottom: 14px;
+    border-radius: var(--radius); padding: 16px 20px;
+    font-size: 1.05rem; font-weight: 700;
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 14px; border-width: 2px; border-style: solid;
   }
-  .alert-info { background: rgba(78,205,196,0.07); border: 1px solid rgba(78,205,196,0.2); color: var(--accent3); }
-  .alert-success { background: rgba(86,207,133,0.07); border: 1px solid rgba(86,207,133,0.2); color: var(--green); }
-  .alert-warning { background: rgba(255,217,61,0.07); border: 1px solid rgba(255,217,61,0.2); color: var(--yellow); }
-  .alert-error { background: rgba(255,71,87,0.07); border: 1px solid rgba(255,71,87,0.2); color: var(--red); }
-  .alert-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .alert-info { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue); }
+  .alert-success { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+  .alert-warning { background: var(--yellow-bg); border-color: var(--yellow-border); color: var(--yellow); }
+  .alert-error { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+  .alert-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
 
   /* ===== INVENTORY TABLE ===== */
   .inv-table-wrap { overflow-x: auto; border-radius: var(--radius); }
-  .inv-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .inv-table { width: 100%; border-collapse: collapse; font-size: 1.05rem; }
   .inv-table th {
-    background: var(--bg2);
-    padding: 12px 18px; text-align: left;
-    font-family: var(--font-mono); font-size: 0.75rem;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--text3); font-weight: 400;
-    border-bottom: 1px solid var(--border);
+    background: var(--sky2);
+    padding: 14px 18px; text-align: left;
+    font-family: var(--font-body); font-size: 0.9rem;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--text2); font-weight: 800;
+    border-bottom: 2px solid var(--border);
   }
   .inv-table td {
-    padding: 11px 18px;
-    border-bottom: 1px solid var(--border);
+    padding: 13px 18px;
+    border-bottom: 2px solid var(--sky2);
+    font-size: 1.05rem; font-weight: 600;
     transition: background 0.15s;
   }
-  .inv-table tr:hover td { background: var(--bg2); }
-  .inv-table tr.low-stock td { background: rgba(255,71,87,0.04); }
-  .inv-table tr.low-stock td:first-child { border-left: 3px solid var(--red); }
+  .inv-table tr:hover td { background: var(--sky); }
+  .inv-table tr.low-stock td { background: var(--red-bg); }
+  .inv-table tr.low-stock td:first-child { border-left: 4px solid var(--red); padding-left: 14px; }
+  .inv-table tr.expiry-critical td { background: #FFCDD2; }
+  .inv-table tr.expiry-urgent td { background: #FFE0B2; }
+  .inv-table tr.expiry-soon td { background: #FFF9C4; }
   .stock-badge {
     display: inline-flex; align-items: center; gap: 5px;
-    padding: 3px 10px; border-radius: 50px;
-    font-size: 0.8rem; font-weight: 600;
-    font-family: var(--font-mono);
+    padding: 4px 14px; border-radius: 50px;
+    font-size: 0.9rem; font-weight: 800;
+    font-family: var(--font-body); border-width: 2px; border-style: solid;
   }
-  .stock-badge.low { background: rgba(255,71,87,0.1); color: var(--red); border: 1px solid rgba(255,71,87,0.2); }
-  .stock-badge.ok { background: rgba(86,207,133,0.1); color: var(--green); border: 1px solid rgba(86,207,133,0.2); }
+  .stock-badge.low { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+  .stock-badge.ok { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+  .expiry-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 0.88rem; font-weight: 800; border-width: 2px; border-style: solid;
+  }
+  .expiry-badge.critical { background: #FFCDD2; color: #B71C1C; border-color: #EF9A9A; }
+  .expiry-badge.urgent { background: #FFE0B2; color: #BF360C; border-color: #FFCC80; }
+  .expiry-badge.soon { background: #FFF9C4; color: #F57F17; border-color: #FFF176; }
+  .expiry-badge.ok { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+
+  /* ===== RECOMMENDATION CARDS ===== */
+  .rec-card {
+    border-radius: var(--radius); padding: 18px 22px;
+    margin-bottom: 12px; border-width: 2px; border-style: solid;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .rec-card.critical { background: #FFCDD2; border-color: #EF9A9A; }
+  .rec-card.urgent { background: #FFE0B2; border-color: #FFCC80; }
+  .rec-card.soon { background: #FFF9C4; border-color: #FFF176; }
+  .rec-card-icon { font-size: 2rem; flex-shrink: 0; }
+  .rec-card-body { flex: 1; }
+  .rec-card-priority { font-size: 0.85rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .rec-card.critical .rec-card-priority { color: #B71C1C; }
+  .rec-card.urgent .rec-card-priority { color: #BF360C; }
+  .rec-card.soon .rec-card-priority { color: #F57F17; }
+  .rec-card-item { font-size: 1.2rem; font-weight: 900; color: var(--text); margin-bottom: 4px; }
+  .rec-card-msg { font-size: 1rem; font-weight: 600; color: var(--text2); }
+  .rec-card-meta { font-size: 0.9rem; font-weight: 700; color: var(--text3); margin-top: 4px; }
+
+  /* ===== RECIPE MODAL ===== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(20,60,100,0.35); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: white; border-radius: var(--radius-lg);
+    padding: 36px; max-width: 560px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    max-height: 90vh; overflow-y: auto;
+  }
+  @keyframes popIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+  .modal-title { font-family: var(--font-title); font-size: 1.8rem; color: var(--text); margin-bottom: 6px; }
+  .modal-subtitle { font-size: 1rem; font-weight: 600; color: var(--text2); margin-bottom: 22px; }
+  .recipe-item {
+    background: var(--sky); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .recipe-name { font-family: var(--font-title); font-size: 1.3rem; color: var(--accent); margin-bottom: 6px; }
+  .recipe-desc { font-size: 1.05rem; font-weight: 600; color: var(--text2); line-height: 1.6; }
+  .modal-close { margin-top: 10px; }
 
   /* ===== MENU ===== */
   .menu-card {
-    background: linear-gradient(135deg, rgba(255,107,53,0.06) 0%, transparent 60%);
-    border: 1px solid rgba(255,107,53,0.18);
+    background: white;
+    border: 2px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 28px;
+    box-shadow: var(--shadow);
   }
-  .menu-day-selector { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 24px; }
+  .menu-day-selector { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
   .day-btn {
-    padding: 9px 18px; border-radius: 50px;
-    border: 1.5px solid var(--border2);
-    background: transparent; color: var(--text2);
-    font-family: var(--font-body); font-size: 0.95rem; font-weight: 500;
-    cursor: pointer; transition: all 0.2s;
+    padding: 10px 22px; border-radius: 50px;
+    border: 2px solid var(--border2); background: var(--sky);
+    color: var(--text2); font-family: var(--font-body);
+    font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s;
   }
-  .day-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .day-btn.active { background: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+  .day-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--orange-bg); }
+  .day-btn.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 4px 14px rgba(255,112,67,0.3); }
+
   .meal-name {
-    font-family: var(--font-display); font-size: 1.8rem; font-weight: 700;
-    letter-spacing: -0.5px; margin-bottom: 18px; color: var(--text);
+    font-family: var(--font-title); font-size: 2.2rem; color: var(--text);
+    letter-spacing: 0.3px; margin-bottom: 18px;
   }
-  .ingredient-list { display: flex; flex-wrap: wrap; gap: 9px; list-style: none; }
+  .ingredient-list { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; }
   .ingredient-tag {
-    background: var(--bg2); border: 1px solid var(--border2);
-    border-radius: 50px; padding: 7px 16px;
-    font-size: 0.9rem; color: var(--text2);
-    display: flex; align-items: center; gap: 6px;
-    transition: all 0.2s;
+    background: var(--sky); border: 2px solid var(--border2);
+    border-radius: 50px; padding: 8px 20px;
+    font-size: 1.05rem; font-weight: 700; color: var(--text2);
+    display: flex; align-items: center; gap: 7px;
+    transition: all 0.2s; cursor: pointer;
   }
-  .ingredient-tag:hover { border-color: var(--accent); color: var(--text); }
-  .ingredient-tag::before { content: '○'; color: var(--accent); font-size: 0.65rem; }
+  .ingredient-tag:hover { border-color: var(--accent); color: var(--accent); background: var(--orange-bg); transform: translateY(-2px); }
+  .ingredient-tag::before { content: '🥄'; font-size: 0.85rem; }
+  .ingredient-tag .recipe-hint {
+    font-size: 0.78rem; background: var(--accent); color: white;
+    border-radius: 50px; padding: 2px 8px; margin-left: 4px;
+    font-weight: 800;
+  }
 
   /* ===== LOCATION CARD ===== */
   .location-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    transition: all 0.2s;
+    background: white; border: 2px solid var(--border);
+    border-radius: var(--radius-lg); padding: 22px 24px;
+    box-shadow: var(--shadow); transition: all 0.2s;
   }
-  .location-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .location-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-  .location-detail { font-size: 0.9rem; color: var(--text2); line-height: 1.9; }
-  .location-detail a { color: var(--accent); text-decoration: none; }
+  .location-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .location-name { font-family: var(--font-title); font-size: 1.3rem; color: var(--text); margin-bottom: 10px; }
+  .location-detail { font-size: 1.05rem; font-weight: 600; color: var(--text2); line-height: 2; }
+  .location-detail a { color: var(--accent); text-decoration: none; font-weight: 700; }
 
-  /* ===== RSVP CARD ===== */
+  /* ===== RSVP ===== */
   .rsvp-card {
-    background: linear-gradient(135deg, rgba(86,207,133,0.07), rgba(78,205,196,0.07));
-    border: 1px solid rgba(86,207,133,0.2);
+    background: linear-gradient(135deg, #E8F5E9, #E3F2FD);
+    border: 2px solid var(--green-border);
     border-radius: var(--radius-lg);
-    padding: 32px;
-    text-align: center;
-    margin-bottom: 32px;
+    padding: 32px; text-align: center; margin-bottom: 32px;
+    box-shadow: var(--shadow);
   }
-  .rsvp-card h2 {
-    font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
-    margin-bottom: 10px; letter-spacing: -0.5px;
-  }
-  .rsvp-card p { color: var(--text2); margin-bottom: 24px; font-size: 1rem; }
-  .rsvp-attending-count {
-    font-family: var(--font-display); font-size: 4rem; font-weight: 800;
-    color: var(--green); letter-spacing: -3px; line-height: 1;
-  }
-  .rsvp-attending-label { color: var(--text2); font-size: 0.9rem; margin-top: 6px; }
+  .rsvp-card h2 { font-family: var(--font-title); font-size: 2rem; color: var(--text); margin-bottom: 10px; }
+  .rsvp-card p { color: var(--text2); margin-bottom: 22px; font-size: 1.1rem; font-weight: 600; }
 
-  /* ===== RSVP LIST (for cook/host) ===== */
+  /* ===== RSVP LIST ===== */
   .rsvp-entry {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: var(--radius); margin-bottom: 10px;
-    font-size: 0.95rem;
+    padding: 16px 22px; background: white;
+    border: 2px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 10px; font-size: 1.05rem;
+    box-shadow: var(--shadow);
   }
-  .rsvp-entry .rsvp-name { font-weight: 600; }
-  .rsvp-entry .rsvp-meta { color: var(--text3); font-size: 0.85rem; margin-top: 2px; }
+  .rsvp-entry .rsvp-name { font-weight: 800; color: var(--text); font-size: 1.1rem; }
+  .rsvp-entry .rsvp-meta { color: var(--text3); font-size: 0.9rem; font-weight: 600; margin-top: 2px; }
   .rsvp-guests-badge {
-    background: rgba(86,207,133,0.12); border: 1px solid rgba(86,207,133,0.25);
-    color: var(--green); font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;
-    padding: 4px 12px; border-radius: 50px;
+    background: var(--green-bg); border: 2px solid var(--green-border);
+    color: var(--green); font-size: 1rem; font-weight: 900;
+    padding: 5px 16px; border-radius: 50px;
   }
 
-  /* ===== GUEST LOCKED AREA ===== */
-  .locked-overlay {
-    background: rgba(10,10,10,0.8);
-    border: 1px dashed var(--border2);
-    border-radius: var(--radius-lg);
-    padding: 40px;
-    text-align: center;
-    display: none;
+  /* ===== AUTH ===== */
+  .auth-wrap { max-width: 480px; margin: 0 auto; padding: 50px 0 40px; }
+  .auth-tabs {
+    display: flex; gap: 6px; margin-bottom: 22px;
+    background: var(--sky2); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 5px;
   }
-  .locked-overlay.show { display: block; }
-  .locked-overlay .lock-icon { font-size: 2.5rem; margin-bottom: 14px; }
-  .locked-overlay h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
-  .locked-overlay p { color: var(--text2); font-size: 0.95rem; margin-bottom: 20px; }
+  .auth-tab {
+    flex: 1; padding: 11px; border-radius: 12px;
+    border: none; background: transparent;
+    color: var(--text2); font-family: var(--font-body); font-size: 1.05rem;
+    font-weight: 800; cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .auth-tab.active { background: white; color: var(--accent); box-shadow: var(--shadow); }
+  .auth-form { display: none; }
+  .auth-form.active { display: block; animation: fadeUp 0.25s ease; }
+  .auth-icon {
+    width: 72px; height: 72px; margin: 0 auto 22px;
+    background: var(--orange-bg); border: 2px solid var(--orange-border);
+    border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
+  }
+  .auth-title { font-family: var(--font-title); font-size: 2.2rem; color: var(--text); text-align: center; margin-bottom: 6px; }
+  .auth-sub { text-align: center; color: var(--text2); margin-bottom: 28px; font-size: 1.05rem; font-weight: 600; }
 
-  /* ===== DONATION FORM ===== */
-  .donation-step {
-    display: flex; align-items: flex-start; gap: 18px;
-    margin-bottom: 20px; padding: 20px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+  /* ===== HOST / COOK INNER TABS ===== */
+  .inner-tabs {
+    display: flex; gap: 5px; margin-bottom: 26px;
+    background: var(--sky2); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 5px;
+    width: fit-content; flex-wrap: wrap;
   }
-  .step-num {
-    width: 38px; height: 38px; flex-shrink: 0;
-    background: rgba(255,107,53,0.14);
-    border: 1px solid rgba(255,107,53,0.28);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem;
-    color: var(--accent);
+  .inner-tab {
+    padding: 10px 22px; border-radius: 12px;
+    border: none; background: transparent; cursor: pointer;
+    font-family: var(--font-body); font-size: 1rem; font-weight: 800;
+    color: var(--text2); transition: all 0.2s; white-space: nowrap;
   }
-  .step-content { flex: 1; }
-  .step-title { font-weight: 700; font-size: 1rem; margin-bottom: 3px; }
-  .step-desc { color: var(--text2); font-size: 0.9rem; }
-
-  /* ===== PENDING DONATIONS ===== */
-  .donation-row {
-    display: grid; grid-template-columns: 1fr 1fr auto auto;
-    gap: 14px; align-items: center;
-    padding: 16px 20px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-  }
-  .donation-row .donor-name { font-weight: 600; }
-  .donation-row .donor-email { font-size: 0.82rem; color: var(--text3); }
-  .donation-row .item-info { font-weight: 600; color: var(--accent2); }
-  .donation-row .item-qty { font-size: 0.87rem; color: var(--text2); }
-  .donation-id-badge {
-    background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 6px; padding: 3px 9px;
-    font-family: var(--font-mono); font-size: 0.78rem; color: var(--text3);
-  }
+  .inner-tab:hover { background: white; color: var(--text); }
+  .inner-tab.active { background: white; color: var(--accent); box-shadow: var(--shadow); }
+  .inner-panel { display: none; }
+  .inner-panel.active { display: block; animation: fadeUp 0.25s ease; }
 
   /* ===== HOST METRICS ===== */
   .host-metric {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 22px;
-    text-align: center;
+    background: white; border: 2px solid var(--border);
+    border-radius: var(--radius-lg); padding: 24px;
+    text-align: center; box-shadow: var(--shadow);
   }
   .host-metric .hm-value {
-    font-family: var(--font-display); font-size: 2.8rem; font-weight: 800;
-    color: var(--accent); letter-spacing: -2px; line-height: 1;
+    font-family: var(--font-title); font-size: 3.4rem;
+    color: var(--accent); line-height: 1;
   }
-  .host-metric .hm-label { color: var(--text2); font-size: 0.88rem; margin-top: 6px; }
+  .host-metric .hm-label { color: var(--text2); font-size: 1rem; font-weight: 700; margin-top: 6px; }
 
-  /* ===== AUTH PANELS ===== */
-  .auth-wrap {
-    max-width: 460px; margin: 0 auto;
-    padding: 50px 0 40px;
+  /* ===== DONATION ===== */
+  .donation-step {
+    display: flex; align-items: flex-start; gap: 18px;
+    margin-bottom: 18px; padding: 20px 22px;
+    background: white; border: 2px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow);
   }
-  .auth-tabs {
-    display: flex; gap: 4px; margin-bottom: 24px;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 4px;
+  .step-num {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--orange-bg); border: 2px solid var(--orange-border);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-title); font-size: 1.3rem; color: var(--accent);
   }
-  .auth-tab {
-    flex: 1; padding: 10px; border-radius: 8px;
-    border: none; background: transparent;
-    color: var(--text2); font-family: var(--font-body); font-size: 0.95rem;
-    font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: center;
-  }
-  .auth-tab.active { background: var(--card); color: var(--text); font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-  .auth-form { display: none; }
-  .auth-form.active { display: block; animation: fadeIn 0.25s ease; }
-  .auth-icon {
-    width: 64px; height: 64px; margin: 0 auto 24px;
-    background: rgba(255,107,53,0.1);
-    border: 1px solid rgba(255,107,53,0.2);
-    border-radius: 18px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem;
-  }
-  .auth-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; text-align: center; margin-bottom: 6px; letter-spacing: -0.5px; }
-  .auth-sub { text-align: center; color: var(--text2); margin-bottom: 28px; font-size: 0.97rem; }
+  .step-content .step-title { font-weight: 900; font-size: 1.1rem; margin-bottom: 4px; color: var(--text); }
+  .step-content .step-desc { color: var(--text2); font-size: 1rem; font-weight: 600; }
 
-  /* ===== HOST INNER TABS ===== */
-  .host-inner-tabs {
-    display: flex; gap: 4px; margin-bottom: 28px;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 4px;
-    width: fit-content;
+  .donation-row {
+    display: grid; grid-template-columns: 1fr 1fr auto auto;
+    gap: 14px; align-items: center;
+    padding: 16px 20px; background: white;
+    border: 2px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 10px; font-size: 1rem;
+    box-shadow: var(--shadow);
   }
-  .hi-tab {
-    padding: 9px 20px; border-radius: 8px;
-    border: none; background: transparent; cursor: pointer;
-    font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
-    color: var(--text2); transition: all 0.2s; white-space: nowrap;
+  .donation-row .donor-name { font-weight: 800; color: var(--text); font-size: 1.05rem; }
+  .donation-row .donor-email { font-size: 0.9rem; color: var(--text3); font-weight: 600; }
+  .donation-row .item-info { font-weight: 800; color: var(--accent2); font-size: 1.05rem; }
+  .donation-row .item-qty { font-size: 0.9rem; color: var(--text2); font-weight: 600; }
+  .donation-id-badge {
+    background: var(--sky); border: 2px solid var(--border);
+    border-radius: 8px; padding: 4px 10px;
+    font-size: 0.9rem; font-weight: 800; color: var(--text2);
   }
-  .hi-tab:hover { background: var(--bg3); color: var(--text); }
-  .hi-tab.active { background: var(--card); color: var(--text); font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-  .host-inner-panel { display: none; }
-  .host-inner-panel.active { display: block; animation: fadeIn 0.25s ease; }
-
-  /* ===== COOK INNER TABS ===== */
-  .cook-inner-tabs {
-    display: flex; gap: 4px; margin-bottom: 28px;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 4px;
-    width: fit-content;
-  }
-  .ci-tab {
-    padding: 9px 20px; border-radius: 8px;
-    border: none; background: transparent; cursor: pointer;
-    font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
-    color: var(--text2); transition: all 0.2s; white-space: nowrap;
-  }
-  .ci-tab:hover { background: var(--bg3); color: var(--text); }
-  .ci-tab.active { background: var(--card); color: var(--accent3); font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-  .cook-inner-panel { display: none; }
-  .cook-inner-panel.active { display: block; animation: fadeIn 0.25s ease; }
 
   /* ===== SEARCH BAR ===== */
   .search-bar { position: relative; margin-bottom: 18px; }
-  .search-bar input { padding-left: 44px; }
-  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 1rem; pointer-events: none; }
-
-  /* ===== TOAST ===== */
-  #toast-container {
-    position: fixed; bottom: 28px; right: 28px;
-    z-index: 9999; display: flex; flex-direction: column; gap: 9px;
-  }
-  .toast {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 14px 20px;
-    min-width: 300px; font-size: 0.95rem;
-    display: flex; align-items: center; gap: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    animation: slideIn 0.3s ease;
-  }
-  .toast.success { border-left: 3px solid var(--green); }
-  .toast.error { border-left: 3px solid var(--red); }
-  .toast.info { border-left: 3px solid var(--accent3); }
-  @keyframes slideIn { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
-  @keyframes slideOut { from{transform:translateX(0);opacity:1} to{transform:translateX(120%);opacity:0} }
-  .toast.out { animation: slideOut 0.3s ease forwards; }
+  .search-bar input { padding-left: 48px; }
+  .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 1.2rem; pointer-events: none; }
 
   /* ===== SPINNER ===== */
   .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid rgba(255,255,255,0.2);
+    width: 20px; height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
     border-top-color: white;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
@@ -657,72 +621,81 @@
   }
   @keyframes spin { to{transform:rotate(360deg)} }
 
+  /* ===== TOAST ===== */
+  #toast-container {
+    position: fixed; bottom: 28px; right: 28px;
+    z-index: 9999; display: flex; flex-direction: column; gap: 10px;
+  }
+  .toast {
+    background: white; border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 16px 22px;
+    min-width: 300px; font-size: 1.05rem; font-weight: 700;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-lg);
+    animation: slideIn 0.3s ease;
+  }
+  .toast.success { border-left: 5px solid var(--green); }
+  .toast.error { border-left: 5px solid var(--red); }
+  .toast.info { border-left: 5px solid var(--blue); }
+  @keyframes slideIn { from{transform:translateX(110%);opacity:0} to{transform:translateX(0);opacity:1} }
+  @keyframes slideOut { from{opacity:1} to{transform:translateX(110%);opacity:0} }
+  .toast.out { animation: slideOut 0.3s ease forwards; }
+
   /* ===== DIVIDER ===== */
-  .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .divider { border: none; border-top: 2px solid var(--border); margin: 28px 0; }
 
   /* ===== FOOTER ===== */
   footer {
-    border-top: 1px solid var(--border);
-    padding: 28px 2rem;
-    text-align: center;
-    color: var(--text3); font-size: 0.88rem;
+    border-top: 2px solid var(--border);
+    padding: 28px 2rem; text-align: center;
+    color: var(--text2); font-size: 1rem; font-weight: 600;
+    background: rgba(255,255,255,0.5);
   }
-  footer a { color: var(--text2); text-decoration: none; }
-  footer a:hover { color: var(--accent); }
-
-  /* ===== DATE PICKER STYLE ===== */
-  input[type="date"] {
-    width: 100%;
-    background: var(--bg2);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    padding: 12px 16px;
-    outline: none;
-    color-scheme: dark;
-  }
-  input[type="date"]:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(255,107,53,0.12);
-  }
+  footer a { color: var(--accent); text-decoration: none; font-weight: 800; }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 900px) {
     .grid-forecast, .grid-2, .grid-3 { grid-template-columns: 1fr; }
     .nav-tabs { display: none; }
     .mobile-tabs {
-      display: flex; overflow-x: auto; gap: 4px;
-      padding: 10px 1rem; background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      scrollbar-width: none;
+      display: flex; overflow-x: auto; gap: 6px;
+      padding: 10px 1rem; background: white;
+      border-bottom: 2px solid var(--border);
+      scrollbar-width: none; position: relative; z-index: 10;
     }
     .mobile-tabs::-webkit-scrollbar { display: none; }
     .mobile-tab {
-      padding: 8px 18px; border-radius: 50px;
-      border: 1.5px solid var(--border2);
-      background: transparent; color: var(--text2);
-      font-size: 0.9rem; font-weight: 500;
+      padding: 9px 20px; border-radius: 50px;
+      border: 2px solid var(--border2); background: var(--sky);
+      color: var(--text2); font-size: 1rem; font-weight: 800;
       cursor: pointer; white-space: nowrap; transition: all 0.2s;
     }
     .mobile-tab.active { background: var(--accent); border-color: var(--accent); color: white; }
-    .hero h1 { font-size: 2rem; }
-    .hero-stats { gap: 28px; }
-    .donation-row { grid-template-columns: 1fr 1fr; }
-    .host-inner-tabs, .cook-inner-tabs { flex-wrap: wrap; width: 100%; }
+    .hero h1 { font-size: 2.2rem; }
     .donate-layout { grid-template-columns: 1fr !important; }
+    .donation-row { grid-template-columns: 1fr 1fr; }
+    .inner-tabs { width: 100%; }
   }
   @media (min-width: 901px) { .mobile-tabs { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
+<!-- RECIPE MODAL -->
+<div class="modal-overlay" id="recipe-modal" onclick="closeRecipeModal(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-item-name">🍳 Recipe Ideas</div>
+    <div class="modal-subtitle" id="modal-item-sub">Ways to cook this at home</div>
+    <div id="modal-recipes-list"></div>
+    <button class="btn btn-outline btn-block modal-close" onclick="closeRecipeModalDirect()">✕ Close</button>
+  </div>
+</div>
+
+<!-- NAVBAR -->
 <nav>
   <a href="#" class="nav-logo" onclick="switchTab('home'); return false;">
     <div class="logo-icon">🍲</div>
-    Soup<span>Kitchen</span>
+    Soup Kitchen
   </a>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="switchTab('home')">🏠 Home</button>
@@ -733,7 +706,6 @@
   </div>
   <div class="nav-right">
     <span class="role-badge" id="role-badge"></span>
-    <span id="nav-user-name" style="font-size:0.88rem;color:var(--text2);display:none;"></span>
     <button class="btn-nav-signout" id="btn-nav-signout" onclick="handleSignOut()">Sign Out</button>
   </div>
 </nav>
@@ -747,69 +719,53 @@
   <button class="mobile-tab" id="mob-auth-tab" onclick="switchTab('auth')">👤 Sign In</button>
 </div>
 
-<!-- ===== HERO ===== -->
-<div class="hero" id="hero-section">
-  <div class="hero-tag">Community Soup Kitchen</div>
-  <h1>Feed More People,<br><em>Waste Less Food</em></h1>
-  <p>Check today's menu, see what's in stock, and RSVP to let us know you're coming — no sign-up required.</p>
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-emoji">🍲</span>
+  <h1>Welcome to the<br><em>Soup Kitchen!</em></h1>
+  <p>See today's menu, check what's in stock, and let us know you're coming. Everyone is welcome! 🌟</p>
   <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="num" id="stat-inventory">40</div>
-      <div class="label">Inventory Items</div>
-    </div>
-    <div class="hero-stat">
-      <div class="num">3</div>
-      <div class="label">Locations</div>
-    </div>
-    <div class="hero-stat">
-      <div class="num" id="stat-low">–</div>
-      <div class="label">Low Stock Alerts</div>
-    </div>
-    <div class="hero-stat">
-      <div class="num" id="stat-rsvp-today">–</div>
-      <div class="label">RSVPs Today</div>
-    </div>
+    <div class="hero-stat"><div class="num" id="stat-inventory">40</div><div class="label">Food Items</div></div>
+    <div class="hero-stat"><div class="num">3</div><div class="label">Locations</div></div>
+    <div class="hero-stat"><div class="num" id="stat-low">–</div><div class="label">Low Stock Alerts</div></div>
+    <div class="hero-stat"><div class="num" id="stat-rsvp-today">–</div><div class="label">Coming Today</div></div>
   </div>
 </div>
 
-<!-- ===== MAIN ===== -->
 <div class="main-wrap">
 
-  <!-- ========== HOME PANEL (Guest/Visitor view) ========== -->
+  <!-- ====== HOME PANEL ====== -->
   <div class="panel active" id="panel-home">
 
-    <!-- RSVP SECTION -->
-    <div style="margin-bottom: 48px;">
+    <!-- RSVP -->
+    <div style="margin-bottom:48px;">
       <div class="section-header">
-        <div class="section-title"><div class="icon">✋</div>Attend a Meal</div>
+        <div class="section-title"><div class="icon">✋</div>Will You Join Us?</div>
       </div>
-
-      <!-- Not logged in state -->
       <div id="rsvp-guest-prompt" class="rsvp-card" style="display:none;">
-        <div class="lock-icon" style="font-size:2.5rem;margin-bottom:14px;">🍲</div>
-        <h2>Join Us for a Meal</h2>
-        <p>Sign in or create a free account to RSVP. It helps our kitchen prepare the right amount of food.</p>
+        <div style="font-size:3rem;margin-bottom:10px;">🍽️</div>
+        <h2>Come Have a Meal With Us!</h2>
+        <p>Sign in or create a free account to let us know you're coming. It helps us prepare the right amount of food!</p>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-          <button class="btn btn-primary" onclick="switchTab('auth')">Sign In / Sign Up</button>
+          <button class="btn btn-primary" onclick="switchTab('auth')">👤 Sign In / Sign Up</button>
         </div>
       </div>
-
-      <!-- Logged in RSVP form -->
       <div id="rsvp-logged-in" style="display:none;">
         <div class="rsvp-card">
-          <h2>👋 Welcome, <span id="rsvp-user-name">friend</span>!</h2>
-          <p>Let us know you're coming so we can prepare enough food for everyone.</p>
-          <div style="max-width:480px;margin:0 auto;text-align:left;">
+          <div style="font-size:2.5rem;margin-bottom:8px;">👋</div>
+          <h2>Hello, <span id="rsvp-user-name">friend</span>!</h2>
+          <p>Let us know you are coming so we can prepare enough delicious food for everyone.</p>
+          <div style="max-width:500px;margin:0 auto;text-align:left;">
             <div class="form-group">
-              <label>Date</label>
+              <label>📅 Which Day?</label>
               <input type="date" id="rsvp-date">
             </div>
             <div class="form-group">
-              <label>How many people are coming? (including yourself)</label>
+              <label>👥 How Many People Coming?</label>
               <input type="number" id="rsvp-guests" value="1" min="1" max="20">
             </div>
             <div class="form-group">
-              <label>Location</label>
+              <label>📍 Which Location?</label>
               <select id="rsvp-location">
                 <option value="Downtown Soup Kitchen">Downtown Soup Kitchen</option>
                 <option value="East Side Community Center">East Side Community Center</option>
@@ -817,9 +773,9 @@
               </select>
             </div>
             <div id="rsvp-alert" style="margin-bottom:12px;"></div>
-            <button class="btn btn-primary btn-block" onclick="submitRSVP()" id="rsvp-btn">
+            <button class="btn btn-primary btn-block" onclick="submitRSVP()" id="rsvp-btn" style="font-size:1.2rem;padding:16px;">
               <div class="spinner" id="rsvp-spinner"></div>
-              ✋ I'll Be There!
+              ✋ Yes, I Will Be There!
             </button>
           </div>
         </div>
@@ -827,42 +783,40 @@
     </div>
 
     <!-- MENU -->
-    <div style="margin-bottom: 48px;">
+    <div style="margin-bottom:48px;">
       <div class="section-header">
         <div class="section-title"><div class="icon">📋</div>This Week's Menu</div>
       </div>
       <div class="menu-card">
         <div class="menu-day-selector" id="day-selector">
-          <button class="day-btn active" onclick="loadMenu('Monday', this)">Mon</button>
-          <button class="day-btn" onclick="loadMenu('Tuesday', this)">Tue</button>
-          <button class="day-btn" onclick="loadMenu('Wednesday', this)">Wed</button>
-          <button class="day-btn" onclick="loadMenu('Thursday', this)">Thu</button>
-          <button class="day-btn" onclick="loadMenu('Friday', this)">Fri</button>
-          <button class="day-btn" onclick="loadMenu('Saturday', this)">Sat</button>
-          <button class="day-btn" onclick="loadMenu('Sunday', this)">Sun</button>
+          <button class="day-btn active" onclick="loadMenu('Monday',this)">Mon</button>
+          <button class="day-btn" onclick="loadMenu('Tuesday',this)">Tue</button>
+          <button class="day-btn" onclick="loadMenu('Wednesday',this)">Wed</button>
+          <button class="day-btn" onclick="loadMenu('Thursday',this)">Thu</button>
+          <button class="day-btn" onclick="loadMenu('Friday',this)">Fri</button>
+          <button class="day-btn" onclick="loadMenu('Saturday',this)">Sat</button>
+          <button class="day-btn" onclick="loadMenu('Sunday',this)">Sun</button>
         </div>
         <div id="menu-display">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-            <span id="menu-day-label" style="color:var(--text3);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;">MONDAY</span>
-          </div>
+          <div style="color:var(--text3);font-size:0.9rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;" id="menu-day-label">MONDAY</div>
           <div class="meal-name" id="meal-name">Loading...</div>
-          <p style="color:var(--text2);margin-bottom:18px;font-size:0.95rem;">Ingredients:</p>
+          <p style="color:var(--text2);margin-bottom:16px;font-size:1rem;font-weight:700;">Tap any ingredient to see how to cook it at home! 👇</p>
           <ul class="ingredient-list" id="ingredient-list"></ul>
         </div>
       </div>
     </div>
 
     <!-- INVENTORY -->
-    <div style="margin-bottom: 48px;">
+    <div style="margin-bottom:48px;">
       <div class="section-header">
-        <div class="section-title"><div class="icon">📦</div>Current Inventory</div>
-        <span id="low-stock-count" style="font-size:0.88rem;color:var(--text3);"></span>
+        <div class="section-title"><div class="icon">📦</div>What We Have</div>
+        <span id="low-stock-count" style="font-size:1rem;font-weight:800;color:var(--text3);"></span>
       </div>
       <div class="search-bar">
         <span class="search-icon">🔍</span>
-        <input type="text" id="inv-search" placeholder="Search items..." oninput="filterInventory()">
+        <input type="text" id="inv-search" placeholder="Search for an item..." oninput="filterInventory()">
       </div>
-      <div class="card" style="padding: 0; overflow: hidden;">
+      <div class="card" style="padding:0;overflow:hidden;">
         <div class="inv-table-wrap">
           <table class="inv-table">
             <thead><tr><th>Item</th><th>Quantity</th><th>Status</th></tr></thead>
@@ -875,17 +829,17 @@
     <!-- LOCATIONS -->
     <div>
       <div class="section-header">
-        <div class="section-title"><div class="icon">📍</div>Our Locations</div>
+        <div class="section-title"><div class="icon">📍</div>Find Us Near You</div>
       </div>
       <div class="grid-3" id="locations-grid"></div>
-      <div class="alert alert-info" style="margin-top: 18px;">
+      <div class="alert alert-info" style="margin-top:18px;">
         <span class="alert-icon">💡</span>
-        <div>All locations share the same inventory pool. Check stock above to see what's most needed before donating.</div>
+        <div>All locations share the same food storage. Check the list above to see what we need most before donating!</div>
       </div>
     </div>
   </div><!-- /panel-home -->
 
-  <!-- ========== DONATOR PANEL ========== -->
+  <!-- ====== DONATE PANEL ====== -->
   <div class="panel" id="panel-donator">
     <div class="section-header">
       <div class="section-title"><div class="icon">🤝</div>Make a Donation</div>
@@ -895,60 +849,60 @@
         <div class="donation-step">
           <div class="step-num">1</div>
           <div class="step-content">
-            <div class="step-title">Check the Inventory</div>
-            <div class="step-desc">See what's running low. Items highlighted in red are urgently needed.</div>
+            <div class="step-title">Check What We Need</div>
+            <div class="step-desc">See what's running low on the right. Items in red are urgently needed!</div>
           </div>
         </div>
         <div class="donation-step">
           <div class="step-num">2</div>
           <div class="step-content">
-            <div class="step-title">Submit Your Request</div>
-            <div class="step-desc">Fill in the form. The host will approve your donation after physical delivery.</div>
+            <div class="step-title">Fill In This Form</div>
+            <div class="step-desc">Tell us what you are bringing. The host will approve it after you deliver.</div>
           </div>
         </div>
         <div class="donation-step">
           <div class="step-num">3</div>
           <div class="step-content">
-            <div class="step-title">Deliver & Get Approved</div>
-            <div class="step-desc">Bring your items to any location. The host will mark it as approved and update inventory.</div>
+            <div class="step-title">Bring It to Any Location</div>
+            <div class="step-desc">Drop off your items at any of our three locations. Thank you so much!</div>
           </div>
         </div>
-        <div class="card" style="margin-top: 8px;">
+        <div class="card" style="margin-top:8px;">
           <div class="card-title">📝 Donation Form</div>
           <div class="form-group">
-            <label>Item to Donate</label>
+            <label>What Are You Donating?</label>
             <select id="d-item-select" onchange="handleItemSelect()">
-              <option value="">— Select an item —</option>
+              <option value="">— Choose an item —</option>
             </select>
           </div>
           <div class="form-group" id="d-custom-group" style="display:none;">
-            <label>Custom Item Name</label>
+            <label>Write the Item Name</label>
             <input type="text" id="d-custom-item" placeholder="e.g. Brown Sugar">
           </div>
           <div class="form-group">
-            <label>Quantity</label>
+            <label>How Many Units?</label>
             <input type="number" id="d-qty" value="10" min="1">
           </div>
           <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" id="d-name" placeholder="Full name">
+            <label>Your Full Name</label>
+            <input type="text" id="d-name" placeholder="Your name">
           </div>
           <div class="form-group">
             <label>Your Email</label>
             <input type="email" id="d-email" placeholder="you@email.com">
           </div>
-          <div id="donate-alert" style="margin-bottom: 12px;"></div>
-          <button class="btn btn-primary btn-block" onclick="submitDonation()" id="donate-btn">
+          <div id="donate-alert" style="margin-bottom:12px;"></div>
+          <button class="btn btn-primary btn-block" onclick="submitDonation()" id="donate-btn" style="font-size:1.1rem;">
             <div class="spinner" id="donate-spinner"></div>
-            Submit Donation Request
+            🤝 Submit Donation Request
           </button>
         </div>
       </div>
       <div>
         <div class="card">
           <div class="card-title">📦 What We Need</div>
-          <p style="color:var(--text2);margin-bottom:16px;font-size:0.9rem;">Items highlighted in red are running low (below 10 units).</p>
-          <div class="inv-table-wrap" style="max-height: 480px; overflow-y: auto;">
+          <p style="color:var(--text2);margin-bottom:16px;font-size:1rem;font-weight:700;">Items in <span style="color:var(--red);">red</span> are running low (less than 10 units).</p>
+          <div class="inv-table-wrap" style="max-height:500px;overflow-y:auto;">
             <table class="inv-table">
               <thead><tr><th>Item</th><th>Qty</th></tr></thead>
               <tbody id="d-inv-tbody"></tbody>
@@ -959,24 +913,21 @@
     </div>
     <hr class="divider">
     <div class="section-header">
-      <div class="section-title"><div class="icon">📍</div>Drop-off Locations</div>
+      <div class="section-title"><div class="icon">📍</div>Drop-Off Locations</div>
     </div>
     <div class="grid-3" id="d-locations-grid"></div>
   </div><!-- /panel-donator -->
 
-  <!-- ========== AUTH PANEL ========== -->
+  <!-- ====== AUTH PANEL ====== -->
   <div class="panel" id="panel-auth">
     <div class="auth-wrap">
       <div class="auth-icon">👤</div>
-      <div class="auth-title">Welcome</div>
-      <div class="auth-sub">Sign in to RSVP for a meal, or create a free account.</div>
-
+      <div class="auth-title">Welcome!</div>
+      <div class="auth-sub">Sign in to RSVP for a meal, or create a free account to get started.</div>
       <div class="auth-tabs">
         <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
         <button class="auth-tab" onclick="switchAuthTab('signup')">Create Account</button>
       </div>
-
-      <!-- LOGIN FORM -->
       <div class="auth-form active" id="auth-login">
         <div class="card">
           <div class="form-group">
@@ -985,116 +936,128 @@
           </div>
           <div class="form-group">
             <label>Password</label>
-            <input type="password" id="login-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doGuestLogin()">
+            <input type="password" id="login-pass" placeholder="Your password" onkeydown="if(event.key==='Enter')doGuestLogin()">
           </div>
           <div id="login-alert" style="margin-bottom:12px;"></div>
-          <button class="btn btn-primary btn-block" onclick="doGuestLogin()" id="login-btn">
+          <button class="btn btn-primary btn-block" onclick="doGuestLogin()" id="login-btn" style="font-size:1.15rem;">
             <div class="spinner" id="login-spinner"></div>
-            Sign In
+            🔓 Sign In
           </button>
         </div>
-        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.82rem;font-family:var(--font-mono);">
+        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.9rem;font-weight:700;">
           Cook demo: cook1 / cook2025 &nbsp;·&nbsp; Host: admin / soupkitchen2025
         </p>
       </div>
-
-      <!-- SIGNUP FORM -->
       <div class="auth-form" id="auth-signup">
         <div class="card">
-          <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" id="signup-name" placeholder="Your full name">
-          </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="signup-email" placeholder="you@email.com">
-          </div>
-          <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="signup-user" placeholder="Choose a username">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="signup-pass" placeholder="Choose a password">
-          </div>
+          <div class="form-group"><label>Your Full Name</label><input type="text" id="signup-name" placeholder="Full name"></div>
+          <div class="form-group"><label>Your Email</label><input type="email" id="signup-email" placeholder="you@email.com"></div>
+          <div class="form-group"><label>Choose a Username</label><input type="text" id="signup-user" placeholder="Username"></div>
+          <div class="form-group"><label>Choose a Password</label><input type="password" id="signup-pass" placeholder="Password"></div>
           <div id="signup-alert" style="margin-bottom:12px;"></div>
-          <button class="btn btn-primary btn-block" onclick="doSignup()" id="signup-btn">
+          <button class="btn btn-primary btn-block" onclick="doSignup()" id="signup-btn" style="font-size:1.15rem;">
             <div class="spinner" id="signup-spinner"></div>
-            Create Account
+            ✅ Create My Account
           </button>
         </div>
       </div>
     </div>
   </div><!-- /panel-auth -->
 
-  <!-- ========== COOK PANEL ========== -->
+  <!-- ====== COOK PANEL ====== -->
   <div class="panel" id="panel-cook">
-
-    <!-- Not logged in -->
     <div id="cook-login-wrap">
       <div class="auth-wrap">
-        <div class="auth-icon" style="background:rgba(78,205,196,0.1);border-color:rgba(78,205,196,0.2);">👨‍🍳</div>
+        <div class="auth-icon" style="background:var(--blue-bg);border-color:var(--blue-border);">👨‍🍳</div>
         <div class="auth-title">Cook Login</div>
-        <div class="auth-sub">Access attendance forecasts and today's RSVP list.</div>
+        <div class="auth-sub">Access today's RSVPs, food expiry alerts, smart recommendations, and meal forecasts.</div>
         <div class="card">
-          <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="cook-login-user" placeholder="cook username" onkeydown="if(event.key==='Enter')doCookLogin()">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="cook-login-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doCookLogin()">
-          </div>
+          <div class="form-group"><label>Username</label><input type="text" id="cook-login-user" placeholder="cook username" onkeydown="if(event.key==='Enter')doCookLogin()"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="cook-login-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doCookLogin()"></div>
           <div id="cook-login-alert" style="margin-bottom:12px;"></div>
-          <button class="btn btn-block" style="background:var(--accent3);color:#000;font-weight:700;" onclick="doCookLogin()" id="cook-login-btn">
+          <button class="btn btn-blue btn-block" onclick="doCookLogin()" id="cook-login-btn" style="font-size:1.15rem;">
             <div class="spinner" id="cook-login-spinner"></div>
-            Sign In as Cook
+            👨‍🍳 Sign In as Cook
           </button>
         </div>
-        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.82rem;font-family:var(--font-mono);">Demo: cook1 / cook2025</p>
+        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.9rem;font-weight:700;">Demo: cook1 / cook2025</p>
       </div>
     </div>
 
-    <!-- Cook Dashboard -->
     <div id="cook-dashboard" style="display:none;">
       <div class="section-header">
-        <div class="section-title"><div class="icon" style="background:rgba(78,205,196,0.12);border-color:rgba(78,205,196,0.2);">👨‍🍳</div>Cook Dashboard</div>
+        <div class="section-title"><div class="icon" style="background:var(--blue-bg);border-color:var(--blue-border);">👨‍🍳</div>Cook Dashboard</div>
         <button class="btn btn-outline btn-sm" onclick="doCookLogout()">Sign Out</button>
       </div>
 
-      <div class="cook-inner-tabs">
-        <button class="ci-tab active" onclick="switchCookTab('c-rsvp')">✋ Today's RSVPs</button>
-        <button class="ci-tab" onclick="switchCookTab('c-forecast')">📊 Forecast</button>
-        <button class="ci-tab" onclick="switchCookTab('c-menu')">📋 Menu</button>
+      <div class="inner-tabs" id="cook-inner-tabs">
+        <button class="inner-tab active" onclick="switchCookTab('c-rsvp',this)">✋ Today's RSVPs</button>
+        <button class="inner-tab" onclick="switchCookTab('c-expiry',this)">⏰ Expiry Tracker</button>
+        <button class="inner-tab" onclick="switchCookTab('c-recommend',this)">💡 Smart Recommendations</button>
+        <button class="inner-tab" onclick="switchCookTab('c-forecast',this)">📊 Forecast</button>
+        <button class="inner-tab" onclick="switchCookTab('c-menu',this)">📋 Menu</button>
       </div>
 
       <!-- RSVP TAB -->
-      <div class="cook-inner-panel active" id="c-rsvp">
-        <div class="grid-2" style="margin-bottom:28px;">
-          <div class="host-metric">
-            <div class="hm-value" id="cook-rsvp-total" style="color:var(--green);">–</div>
-            <div class="hm-label">Total People RSVPd Today</div>
-          </div>
-          <div class="host-metric">
-            <div class="hm-value" id="cook-rsvp-count" style="color:var(--accent3);">–</div>
-            <div class="hm-label">RSVP Entries Today</div>
-          </div>
+      <div class="inner-panel active" id="c-rsvp">
+        <div class="grid-2" style="margin-bottom:24px;">
+          <div class="host-metric"><div class="hm-value" id="cook-rsvp-total" style="color:var(--green);">–</div><div class="hm-label">Total People Coming Today</div></div>
+          <div class="host-metric"><div class="hm-value" id="cook-rsvp-count" style="color:var(--blue);">–</div><div class="hm-label">RSVP Entries</div></div>
         </div>
         <div class="section-header">
-          <div class="section-title" style="font-size:1.2rem;">Who's Coming Today</div>
+          <div class="section-title" style="font-size:1.5rem;">Who Is Coming?</div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <input type="date" id="cook-rsvp-date" style="width:180px;padding:8px 12px;font-size:0.9rem;" onchange="loadCookRSVP()">
+            <input type="date" id="cook-rsvp-date" style="width:190px;" onchange="loadCookRSVP()">
             <button class="btn btn-outline btn-sm" onclick="loadCookRSVP()">↻ Refresh</button>
           </div>
         </div>
         <div id="cook-rsvp-list"></div>
       </div>
 
+      <!-- EXPIRY TRACKER TAB -->
+      <div class="inner-panel" id="c-expiry">
+        <div class="section-header">
+          <div class="section-title" style="font-size:1.5rem;">⏰ Food Expiry Tracker</div>
+          <button class="btn btn-outline btn-sm" onclick="loadExpiryData()">↻ Refresh</button>
+        </div>
+        <div class="alert alert-warning" style="margin-bottom:18px;">
+          <span class="alert-icon">⚠️</span>
+          <div><strong>Check the expiry dates below.</strong> Items highlighted in red or orange need to be used soon to avoid waste!</div>
+        </div>
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="expiry-search" placeholder="Search items..." oninput="filterExpiryTable()">
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div class="inv-table-wrap">
+            <table class="inv-table">
+              <thead><tr><th>Item</th><th>Quantity</th><th>Expiry Date</th><th>Days Left</th><th>Status</th></tr></thead>
+              <tbody id="expiry-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECOMMENDATIONS TAB -->
+      <div class="inner-panel" id="c-recommend">
+        <div class="section-header">
+          <div class="section-title" style="font-size:1.5rem;">💡 Smart Recommendations</div>
+          <button class="btn btn-outline btn-sm" onclick="loadRecommendations()">↻ Refresh</button>
+        </div>
+        <div class="alert alert-info" style="margin-bottom:18px;">
+          <span class="alert-icon">🤖</span>
+          <div><strong>Smart suggestions based on expiry dates and stock levels.</strong> Use these ingredients first to avoid food waste!</div>
+        </div>
+        <div id="recommendations-list">
+          <div class="alert alert-info"><span class="alert-icon">⏳</span><div>Loading recommendations...</div></div>
+        </div>
+      </div>
+
       <!-- FORECAST TAB -->
-      <div class="cook-inner-panel" id="c-forecast">
+      <div class="inner-panel" id="c-forecast">
         <div class="grid-forecast">
           <div class="card">
-            <div class="card-title">🌤 Set Conditions</div>
+            <div class="card-title">🌤️ Set the Conditions</div>
             <div class="form-group">
               <label>Month</label>
               <select id="cf-month">
@@ -1110,45 +1073,24 @@
               <label>Temperature (°F)</label>
               <input type="number" id="cf-temp" value="70">
             </div>
-            <div class="toggle-row">
-              <div class="toggle-label">Raining?</div>
-              <label class="toggle"><input type="checkbox" id="cf-rain"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="toggle-row">
-              <div class="toggle-label">Snowing?</div>
-              <label class="toggle"><input type="checkbox" id="cf-snow"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="toggle-row">
-              <div class="toggle-label">Public Holiday?</div>
-              <label class="toggle"><input type="checkbox" id="cf-holiday"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="toggle-row">
-              <div class="toggle-label">Local Event?</div>
-              <label class="toggle"><input type="checkbox" id="cf-event"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="toggle-row">
-              <div class="toggle-label">End of Month?</div>
-              <label class="toggle"><input type="checkbox" id="cf-eom"><span class="toggle-slider"></span></label>
-            </div>
+            <div class="toggle-row"><div class="toggle-label">Raining?<small>Rain brings more people</small></div><label class="toggle"><input type="checkbox" id="cf-rain"><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div class="toggle-label">Snowing?<small>Snow increases need a lot</small></div><label class="toggle"><input type="checkbox" id="cf-snow"><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div class="toggle-label">Public Holiday?<small>Holidays bring more guests</small></div><label class="toggle"><input type="checkbox" id="cf-holiday"><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div class="toggle-label">Local Event Nearby?</div><label class="toggle"><input type="checkbox" id="cf-event"><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div class="toggle-label">End of the Month?<small>Higher need near month-end</small></div><label class="toggle"><input type="checkbox" id="cf-eom"><span class="toggle-slider"></span></label></div>
             <div style="margin-top:22px;">
-              <button class="btn btn-block" style="background:var(--accent3);color:#000;font-weight:700;" onclick="getCookForecast()">Calculate Forecast</button>
+              <button class="btn btn-blue btn-block" style="font-size:1.1rem;" onclick="getCookForecast()">📊 Calculate Forecast</button>
             </div>
           </div>
           <div class="card">
-            <div class="card-title">🎯 Results</div>
+            <div class="card-title">🎯 Prediction Results</div>
             <div class="metric-big">
               <div class="metric-value" id="cf-guests">--</div>
               <div class="metric-label">Predicted Guests</div>
             </div>
             <div class="prep-pills" id="cf-pills" style="display:none;">
-              <div class="prep-pill">
-                <div class="prep-num" id="cf-soup">--</div>
-                <div class="prep-type">🍲 Soup Bowls</div>
-              </div>
-              <div class="prep-pill">
-                <div class="prep-num" id="cf-bread">--</div>
-                <div class="prep-type">🍞 Bread Pieces</div>
-              </div>
+              <div class="prep-pill"><div class="prep-num" id="cf-soup">--</div><div class="prep-type">🍲 Soup Bowls</div></div>
+              <div class="prep-pill"><div class="prep-num" id="cf-bread">--</div><div class="prep-type">🍞 Bread Pieces</div></div>
             </div>
             <div id="cf-alert" style="margin-top:18px;"></div>
           </div>
@@ -1156,113 +1098,85 @@
       </div>
 
       <!-- MENU TAB -->
-      <div class="cook-inner-panel" id="c-menu">
+      <div class="inner-panel" id="c-menu">
         <div class="menu-card">
           <div class="menu-day-selector" id="cook-day-selector">
-            <button class="day-btn active" onclick="loadCookMenu('Monday', this)">Mon</button>
-            <button class="day-btn" onclick="loadCookMenu('Tuesday', this)">Tue</button>
-            <button class="day-btn" onclick="loadCookMenu('Wednesday', this)">Wed</button>
-            <button class="day-btn" onclick="loadCookMenu('Thursday', this)">Thu</button>
-            <button class="day-btn" onclick="loadCookMenu('Friday', this)">Fri</button>
-            <button class="day-btn" onclick="loadCookMenu('Saturday', this)">Sat</button>
-            <button class="day-btn" onclick="loadCookMenu('Sunday', this)">Sun</button>
+            <button class="day-btn active" onclick="loadCookMenu('Monday',this)">Mon</button>
+            <button class="day-btn" onclick="loadCookMenu('Tuesday',this)">Tue</button>
+            <button class="day-btn" onclick="loadCookMenu('Wednesday',this)">Wed</button>
+            <button class="day-btn" onclick="loadCookMenu('Thursday',this)">Thu</button>
+            <button class="day-btn" onclick="loadCookMenu('Friday',this)">Fri</button>
+            <button class="day-btn" onclick="loadCookMenu('Saturday',this)">Sat</button>
+            <button class="day-btn" onclick="loadCookMenu('Sunday',this)">Sun</button>
           </div>
-          <div>
-            <div style="color:var(--text3);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;" id="cook-menu-day-label">MONDAY</div>
-            <div class="meal-name" id="cook-meal-name">Loading...</div>
-            <p style="color:var(--text2);margin-bottom:18px;font-size:0.95rem;">Ingredients:</p>
-            <ul class="ingredient-list" id="cook-ingredient-list"></ul>
-          </div>
+          <div style="color:var(--text3);font-size:0.9rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;" id="cook-menu-day-label">MONDAY</div>
+          <div class="meal-name" id="cook-meal-name">Loading...</div>
+          <p style="color:var(--text2);margin-bottom:16px;font-size:1rem;font-weight:700;">Ingredients:</p>
+          <ul class="ingredient-list" id="cook-ingredient-list"></ul>
         </div>
       </div>
     </div>
   </div><!-- /panel-cook -->
 
-  <!-- ========== HOST PANEL ========== -->
+  <!-- ====== HOST PANEL ====== -->
   <div class="panel" id="panel-host">
-
-    <!-- Login Form -->
     <div id="host-login-wrap">
       <div class="auth-wrap">
         <div class="auth-icon">🔑</div>
         <div class="auth-title">Host Login</div>
-        <div class="auth-sub">Manage donations, inventory, and view full forecasts.</div>
+        <div class="auth-sub">Manage donations, update inventory, and view full reports.</div>
         <div class="card">
-          <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="host-login-user" value="admin">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="host-login-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doHostLogin()">
-          </div>
+          <div class="form-group"><label>Username</label><input type="text" id="host-login-user" value="admin"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="host-login-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doHostLogin()"></div>
           <div id="host-login-alert" style="margin-bottom:12px;"></div>
-          <button class="btn btn-primary btn-block" onclick="doHostLogin()" id="host-login-btn">
+          <button class="btn btn-primary btn-block" onclick="doHostLogin()" id="host-login-btn" style="font-size:1.15rem;">
             <div class="spinner" id="host-login-spinner"></div>
-            Sign In as Host
+            🔑 Sign In as Host
           </button>
         </div>
-        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.82rem;font-family:var(--font-mono);">Demo: admin / soupkitchen2025</p>
+        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.9rem;font-weight:700;">Demo: admin / soupkitchen2025</p>
       </div>
     </div>
 
-    <!-- Dashboard -->
     <div id="host-dashboard" style="display:none;">
       <div class="section-header">
         <div class="section-title"><div class="icon">🏠</div>Host Dashboard</div>
         <button class="btn btn-outline btn-sm" onclick="doHostLogout()">Sign Out</button>
       </div>
-
-      <!-- Metrics -->
-      <div class="grid-3" style="margin-bottom:28px;">
-        <div class="host-metric">
-          <div class="hm-value" id="hm-total">–</div>
-          <div class="hm-label">Total Inventory Items</div>
-        </div>
-        <div class="host-metric">
-          <div class="hm-value" id="hm-low" style="color:var(--red);">–</div>
-          <div class="hm-label">Low Stock Items</div>
-        </div>
-        <div class="host-metric">
-          <div class="hm-value" id="hm-pend" style="color:var(--yellow);">–</div>
-          <div class="hm-label">Pending Donations</div>
-        </div>
+      <div class="grid-3" style="margin-bottom:26px;">
+        <div class="host-metric"><div class="hm-value" id="hm-total">–</div><div class="hm-label">Total Food Items</div></div>
+        <div class="host-metric"><div class="hm-value" id="hm-low" style="color:var(--red);">–</div><div class="hm-label">Low Stock Items</div></div>
+        <div class="host-metric"><div class="hm-value" id="hm-pend" style="color:var(--orange);">–</div><div class="hm-label">Pending Donations</div></div>
       </div>
 
-      <div class="host-inner-tabs">
-        <button class="hi-tab active" onclick="switchHostTab('h-rsvp')">✋ RSVPs</button>
-        <button class="hi-tab" onclick="switchHostTab('h-inventory')">📦 Inventory</button>
-        <button class="hi-tab" onclick="switchHostTab('h-forecast')">📊 Forecast</button>
-        <button class="hi-tab" onclick="switchHostTab('h-pending')">⏳ Donations</button>
-        <button class="hi-tab" onclick="switchHostTab('h-approved')">✅ History</button>
+      <div class="inner-tabs" id="host-inner-tabs">
+        <button class="inner-tab active" onclick="switchHostTab('h-rsvp',this)">✋ RSVPs</button>
+        <button class="inner-tab" onclick="switchHostTab('h-inventory',this)">📦 Inventory</button>
+        <button class="inner-tab" onclick="switchHostTab('h-forecast',this)">📊 Forecast</button>
+        <button class="inner-tab" onclick="switchHostTab('h-pending',this)">⏳ Donations</button>
+        <button class="inner-tab" onclick="switchHostTab('h-approved',this)">✅ History</button>
       </div>
 
-      <!-- RSVP TAB -->
-      <div class="host-inner-panel active" id="h-rsvp">
-        <div class="grid-2" style="margin-bottom:24px;">
-          <div class="host-metric">
-            <div class="hm-value" id="host-rsvp-total" style="color:var(--green);">–</div>
-            <div class="hm-label">Total People RSVPd</div>
-          </div>
-          <div class="host-metric">
-            <div class="hm-value" id="host-rsvp-count" style="color:var(--blue);">–</div>
-            <div class="hm-label">RSVP Entries</div>
-          </div>
+      <!-- RSVP -->
+      <div class="inner-panel active" id="h-rsvp">
+        <div class="grid-2" style="margin-bottom:22px;">
+          <div class="host-metric"><div class="hm-value" id="host-rsvp-total" style="color:var(--green);">–</div><div class="hm-label">Total People RSVPd</div></div>
+          <div class="host-metric"><div class="hm-value" id="host-rsvp-count" style="color:var(--blue);">–</div><div class="hm-label">RSVP Entries</div></div>
         </div>
         <div class="section-header">
-          <div class="section-title" style="font-size:1.2rem;">RSVP List</div>
+          <div class="section-title" style="font-size:1.4rem;">RSVP List</div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <input type="date" id="host-rsvp-date" style="width:180px;padding:8px 12px;font-size:0.9rem;" onchange="loadHostRSVP()">
+            <input type="date" id="host-rsvp-date" style="width:190px;" onchange="loadHostRSVP()">
             <button class="btn btn-outline btn-sm" onclick="loadHostRSVP()">↻ Refresh</button>
           </div>
         </div>
         <div id="host-rsvp-list"></div>
       </div>
 
-      <!-- INVENTORY TAB -->
-      <div class="host-inner-panel" id="h-inventory">
+      <!-- INVENTORY -->
+      <div class="inner-panel" id="h-inventory">
         <div class="section-header">
-          <div class="section-title" style="font-size:1.2rem;">Current Inventory</div>
+          <div class="section-title" style="font-size:1.4rem;">Current Inventory</div>
           <div style="display:flex;gap:10px;">
             <input type="text" id="h-inv-search" placeholder="Search..." oninput="filterHostInventory()" style="width:200px;">
             <button class="btn btn-outline btn-sm" onclick="loadHostData()">↻ Refresh</button>
@@ -1270,65 +1184,47 @@
         </div>
         <div class="card" style="margin-bottom:18px;">
           <div class="card-title">✏️ Update Item Quantity</div>
-          <div style="display:grid;grid-template-columns:1fr 150px auto;gap:12px;align-items:end;">
-            <div>
-              <label>Item</label>
-              <select id="h-update-item"></select>
-            </div>
-            <div>
-              <label>New Quantity</label>
-              <input type="number" id="h-update-qty" value="0" min="0">
-            </div>
-            <div>
-              <button class="btn btn-primary btn-sm" onclick="updateInventoryItem()" style="margin-bottom:1px;">Update</button>
-            </div>
+          <div style="display:grid;grid-template-columns:1fr 160px auto;gap:12px;align-items:end;">
+            <div><label>Item</label><select id="h-update-item"></select></div>
+            <div><label>New Quantity</label><input type="number" id="h-update-qty" value="0" min="0"></div>
+            <div><button class="btn btn-primary btn-sm" onclick="updateInventoryItem()" style="margin-bottom:1px;">Update</button></div>
           </div>
         </div>
-        <div class="card" style="padding: 0; overflow: hidden;">
+        <div class="card" style="padding:0;overflow:hidden;">
           <div class="inv-table-wrap">
             <table class="inv-table">
-              <thead><tr><th>Item</th><th>Quantity</th><th>Status</th></tr></thead>
+              <thead><tr><th>Item</th><th>Quantity</th><th>Expiry Date</th><th>Status</th></tr></thead>
               <tbody id="h-inv-tbody"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- FORECAST TAB -->
-      <div class="host-inner-panel" id="h-forecast">
+      <!-- FORECAST -->
+      <div class="inner-panel" id="h-forecast">
         <div class="grid-forecast">
           <div class="card">
-            <div class="card-title">🌤 Set Conditions</div>
+            <div class="card-title">🌤️ Set Conditions</div>
             <div class="form-group">
               <label>Month</label>
               <select id="hf-month">
-                <option value="1">January</option><option value="2">February</option>
-                <option value="3">March</option><option value="4">April</option>
-                <option value="5">May</option><option value="6">June</option>
-                <option value="7">July</option><option value="8">August</option>
-                <option value="9">September</option><option value="10">October</option>
-                <option value="11">November</option><option value="12">December</option>
+                <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+                <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+                <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+                <option value="10">October</option><option value="11">November</option><option value="12">December</option>
               </select>
             </div>
-            <div class="form-group">
-              <label>Temperature (°F)</label>
-              <input type="number" id="hf-temp" value="70">
-            </div>
+            <div class="form-group"><label>Temperature (°F)</label><input type="number" id="hf-temp" value="70"></div>
             <div class="toggle-row"><div class="toggle-label">Raining?</div><label class="toggle"><input type="checkbox" id="hf-rain"><span class="toggle-slider"></span></label></div>
             <div class="toggle-row"><div class="toggle-label">Snowing?</div><label class="toggle"><input type="checkbox" id="hf-snow"><span class="toggle-slider"></span></label></div>
             <div class="toggle-row"><div class="toggle-label">Public Holiday?</div><label class="toggle"><input type="checkbox" id="hf-holiday"><span class="toggle-slider"></span></label></div>
             <div class="toggle-row"><div class="toggle-label">Local Event?</div><label class="toggle"><input type="checkbox" id="hf-event"><span class="toggle-slider"></span></label></div>
             <div class="toggle-row"><div class="toggle-label">End of Month?</div><label class="toggle"><input type="checkbox" id="hf-eom"><span class="toggle-slider"></span></label></div>
-            <div style="margin-top:22px;">
-              <button class="btn btn-primary btn-block" onclick="getHostForecast()">Calculate Forecast</button>
-            </div>
+            <div style="margin-top:22px;"><button class="btn btn-primary btn-block" style="font-size:1.1rem;" onclick="getHostForecast()">📊 Calculate Forecast</button></div>
           </div>
           <div class="card">
-            <div class="card-title">🎯 Results</div>
-            <div class="metric-big">
-              <div class="metric-value" id="hf-guests">--</div>
-              <div class="metric-label">Predicted Guests</div>
-            </div>
+            <div class="card-title">🎯 Prediction</div>
+            <div class="metric-big"><div class="metric-value" id="hf-guests">--</div><div class="metric-label">Predicted Guests</div></div>
             <div class="prep-pills" id="hf-pills" style="display:none;">
               <div class="prep-pill"><div class="prep-num" id="hf-soup">--</div><div class="prep-type">🍲 Soup Bowls</div></div>
               <div class="prep-pill"><div class="prep-num" id="hf-bread">--</div><div class="prep-type">🍞 Bread Pieces</div></div>
@@ -1338,23 +1234,19 @@
         </div>
       </div>
 
-      <!-- PENDING TAB -->
-      <div class="host-inner-panel" id="h-pending">
+      <!-- PENDING -->
+      <div class="inner-panel" id="h-pending">
         <div class="section-header">
-          <div class="section-title" style="font-size:1.2rem;">Pending Donations</div>
+          <div class="section-title" style="font-size:1.4rem;">Pending Donations</div>
           <button class="btn btn-outline btn-sm" onclick="loadHostData()">↻ Refresh</button>
         </div>
-        <div id="pending-list">
-          <div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>Loading pending donations...</div></div>
-        </div>
+        <div id="pending-list"><div class="alert alert-info"><span class="alert-icon">⏳</span><div>Loading...</div></div></div>
       </div>
 
-      <!-- APPROVED TAB -->
-      <div class="host-inner-panel" id="h-approved">
-        <div class="section-header">
-          <div class="section-title" style="font-size:1.2rem;">Approved Donation History</div>
-        </div>
-        <div class="card" style="padding: 0; overflow: hidden;">
+      <!-- APPROVED -->
+      <div class="inner-panel" id="h-approved">
+        <div class="section-header"><div class="section-title" style="font-size:1.4rem;">Approved Donation History</div></div>
+        <div class="card" style="padding:0;overflow:hidden;">
           <div class="inv-table-wrap">
             <table class="inv-table">
               <thead><tr><th>ID</th><th>Donor</th><th>Email</th><th>Item</th><th>Qty</th><th>Status</th></tr></thead>
@@ -1363,35 +1255,32 @@
           </div>
         </div>
       </div>
-    </div><!-- /host-dashboard -->
+    </div>
   </div><!-- /panel-host -->
 
 </div><!-- /main-wrap -->
 
-<!-- TOAST -->
 <div id="toast-container"></div>
 
 <footer>
-  <p>🍲 Soup Kitchen Management System &nbsp;·&nbsp; <a href="#">About</a> &nbsp;·&nbsp; <a href="#">Contact</a></p>
-  <p style="margin-top:6px;font-size:0.8rem;">Made with ❤️ to help communities thrive</p>
+  <p>🍲 Soup Kitchen &nbsp;·&nbsp; <a href="#">About</a> &nbsp;·&nbsp; <a href="#">Contact</a> &nbsp;·&nbsp; Made with ❤️ for the community</p>
 </footer>
 
 <script>
 // ===== STATE =====
 let inventoryData = [];
-let currentRole = 'visitor'; // visitor | guest | cook | host
+let expiryData = [];
+let currentRole = 'visitor';
 let currentUserName = '';
 let currentUserEmail = '';
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', async () => {
-  // Set today's date on date inputs
   const today = new Date().toISOString().split('T')[0];
   ['rsvp-date','cook-rsvp-date','host-rsvp-date'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = today;
   });
-
   await checkSessionInfo();
   loadInventory();
   loadMenu('Monday', document.querySelector('.day-btn'));
@@ -1408,101 +1297,67 @@ async function checkSessionInfo() {
     currentRole = data.role || 'visitor';
     currentUserName = data.name || '';
     applyRoleUI();
-
-    // If cook/host already logged in, show their dashboards
-    if (currentRole === 'host') {
-      showHostDashboard();
-    } else if (currentRole === 'cook') {
-      showCookDashboard();
-    }
+    if (currentRole === 'host') showHostDashboard();
+    else if (currentRole === 'cook') showCookDashboard();
   } catch(e) {}
 }
 
 function applyRoleUI() {
-  // Reset
   document.body.className = '';
   const badge = document.getElementById('role-badge');
   const signoutBtn = document.getElementById('btn-nav-signout');
-  const nameEl = document.getElementById('nav-user-name');
   const authBtn = document.getElementById('nav-auth-btn');
-
   badge.className = 'role-badge';
   badge.classList.remove('visible');
   signoutBtn.classList.remove('visible');
-  nameEl.style.display = 'none';
 
   if (currentRole === 'host') {
     document.body.classList.add('role-host');
-    badge.classList.add('host', 'visible');
-    badge.textContent = '🔑 Host';
-    signoutBtn.classList.add('visible');
-    nameEl.style.display = 'block';
-    nameEl.textContent = 'Host Admin';
-    authBtn.style.display = 'none';
-    // Update mobile tabs
+    badge.classList.add('host','visible'); badge.textContent = '🔑 Host';
+    signoutBtn.classList.add('visible'); authBtn.style.display = 'none';
     document.getElementById('mob-host-tab').style.display = 'block';
     document.getElementById('mob-cook-tab').style.display = 'none';
     document.getElementById('mob-auth-tab').style.display = 'none';
   } else if (currentRole === 'cook') {
     document.body.classList.add('role-cook');
-    badge.classList.add('cook', 'visible');
-    badge.textContent = '👨‍🍳 Cook';
-    signoutBtn.classList.add('visible');
-    nameEl.style.display = 'block';
-    nameEl.textContent = currentUserName;
-    authBtn.style.display = 'none';
+    badge.classList.add('cook','visible'); badge.textContent = '👨‍🍳 ' + currentUserName;
+    signoutBtn.classList.add('visible'); authBtn.style.display = 'none';
     document.getElementById('mob-cook-tab').style.display = 'block';
     document.getElementById('mob-host-tab').style.display = 'none';
     document.getElementById('mob-auth-tab').style.display = 'none';
   } else if (currentRole === 'guest') {
-    badge.classList.add('guest', 'visible');
-    badge.textContent = '✓ ' + currentUserName;
-    signoutBtn.classList.add('visible');
-    nameEl.style.display = 'none';
-    authBtn.style.display = 'none';
-    document.getElementById('mob-auth-tab').textContent = '👤 ' + currentUserName;
+    badge.classList.add('guest','visible'); badge.textContent = '✓ ' + currentUserName;
+    signoutBtn.classList.add('visible'); authBtn.style.display = 'none';
+    document.getElementById('mob-auth-tab').style.display = 'none';
     document.getElementById('mob-host-tab').style.display = 'none';
     document.getElementById('mob-cook-tab').style.display = 'none';
   } else {
-    // visitor
-    authBtn.style.display = 'block';
-    authBtn.textContent = '👤 Sign In';
+    authBtn.style.display = 'block'; authBtn.textContent = '👤 Sign In';
     document.getElementById('mob-auth-tab').style.display = 'block';
     document.getElementById('mob-auth-tab').textContent = '👤 Sign In';
     document.getElementById('mob-host-tab').style.display = 'none';
     document.getElementById('mob-cook-tab').style.display = 'none';
   }
-
   updateRSVPSection();
 }
 
 function updateRSVPSection() {
   const guestPrompt = document.getElementById('rsvp-guest-prompt');
   const loggedInRsvp = document.getElementById('rsvp-logged-in');
-  const nameEl = document.getElementById('rsvp-user-name');
-
   if (currentRole === 'visitor') {
-    guestPrompt.style.display = 'block';
-    loggedInRsvp.style.display = 'none';
+    guestPrompt.style.display = 'block'; loggedInRsvp.style.display = 'none';
   } else if (currentRole === 'guest') {
-    guestPrompt.style.display = 'none';
-    loggedInRsvp.style.display = 'block';
-    if (nameEl) nameEl.textContent = currentUserName || 'friend';
+    guestPrompt.style.display = 'none'; loggedInRsvp.style.display = 'block';
+    document.getElementById('rsvp-user-name').textContent = currentUserName || 'friend';
   } else {
-    // cook / host: hide RSVP widget from home, they have their own dashboards
-    guestPrompt.style.display = 'none';
-    loggedInRsvp.style.display = 'none';
+    guestPrompt.style.display = 'none'; loggedInRsvp.style.display = 'none';
   }
 }
 
 async function handleSignOut() {
-  if (currentRole === 'host') {
-    await doHostLogout();
-  } else if (currentRole === 'cook') {
-    await doCookLogout();
-  } else {
-    await doGuestLogout();
-  }
+  if (currentRole === 'host') await doHostLogout();
+  else if (currentRole === 'cook') await doCookLogout();
+  else await doGuestLogout();
 }
 
 // ===== TABS =====
@@ -1510,7 +1365,6 @@ function switchTab(tab) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab, .mobile-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
-  // Activate matching nav button
   document.querySelectorAll('.nav-tab, .mobile-tab').forEach(b => {
     const txt = b.textContent.toLowerCase();
     if (tab === 'home' && txt.includes('home')) b.classList.add('active');
@@ -1529,23 +1383,47 @@ function switchAuthTab(tab) {
   event.target.classList.add('active');
 }
 
-function switchHostTab(tab) {
-  document.querySelectorAll('.host-inner-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.hi-tab').forEach(b => b.classList.remove('active'));
+function switchHostTab(tab, btn) {
+  document.querySelectorAll('#host-inner-tabs + .inner-panel, #host-dashboard .inner-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#host-inner-tabs .inner-tab').forEach(b => b.classList.remove('active'));
   document.getElementById(tab).classList.add('active');
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
   if (tab === 'h-pending' || tab === 'h-approved') loadHostData();
   if (tab === 'h-rsvp') loadHostRSVP();
 }
 
-function switchCookTab(tab) {
-  document.querySelectorAll('.cook-inner-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.ci-tab').forEach(b => b.classList.remove('active'));
+function switchCookTab(tab, btn) {
+  document.querySelectorAll('#cook-inner-tabs + .inner-panel, #cook-dashboard .inner-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#cook-inner-tabs .inner-tab').forEach(b => b.classList.remove('active'));
   document.getElementById(tab).classList.add('active');
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
   if (tab === 'c-rsvp') loadCookRSVP();
+  if (tab === 'c-expiry') loadExpiryData();
+  if (tab === 'c-recommend') loadRecommendations();
   if (tab === 'c-menu') loadCookMenu('Monday', document.querySelector('#cook-day-selector .day-btn'));
 }
+
+// ===== RECIPE MODAL =====
+async function showRecipes(item) {
+  try {
+    const res = await fetch(`/get_recipes?item=${encodeURIComponent(item)}`);
+    const data = await res.json();
+    document.getElementById('modal-item-name').textContent = '🍳 ' + item;
+    document.getElementById('modal-item-sub').textContent = 'Here are some easy ways to cook ' + item + ' at home!';
+    document.getElementById('modal-recipes-list').innerHTML = (data.recipes || []).map(r => `
+      <div class="recipe-item">
+        <div class="recipe-name">✨ ${r.name}</div>
+        <div class="recipe-desc">${r.desc}</div>
+      </div>
+    `).join('');
+    document.getElementById('recipe-modal').classList.add('show');
+  } catch(e) {}
+}
+
+function closeRecipeModal(e) {
+  if (e.target === document.getElementById('recipe-modal')) document.getElementById('recipe-modal').classList.remove('show');
+}
+function closeRecipeModalDirect() { document.getElementById('recipe-modal').classList.remove('show'); }
 
 // ===== GUEST AUTH =====
 async function doGuestLogin() {
@@ -1554,245 +1432,143 @@ async function doGuestLogin() {
   const alertEl = document.getElementById('login-alert');
   const username = document.getElementById('login-user').value.trim();
   const password = document.getElementById('login-pass').value.trim();
-  if (!username || !password) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Enter username and password.</div></div>`;
-    return;
-  }
+  if (!username || !password) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please enter your username and password.</div></div>`; return; }
   btn.disabled = true; sp.style.display = 'inline-block';
   try {
-    // Try cook login first, then guest, then host
-    // First try guest/cook login endpoint
-    const res = await fetch('/guest_login', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ username, password })
-    });
+    const res = await fetch('/guest_login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
     const data = await res.json();
     if (data.success) {
-      currentRole = data.role;
-      currentUserName = data.name;
+      currentRole = data.role; currentUserName = data.name;
       alertEl.innerHTML = '';
-      showToast(`Welcome back, ${data.name}!`, 'success');
-
+      showToast(`Welcome back, ${data.name}! 👋`, 'success');
       if (data.role === 'cook') {
-        // Also set cook session
-        await fetch('/cook_login', {
-          method: 'POST', headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ username, password })
-        });
-        applyRoleUI();
-        showCookDashboard();
-        switchTab('cook');
-      } else {
-        applyRoleUI();
-        switchTab('home');
-      }
+        await fetch('/cook_login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
+        applyRoleUI(); showCookDashboard(); switchTab('cook');
+      } else { applyRoleUI(); switchTab('home'); }
     } else {
-      // Try host login
-      const hRes = await fetch('/host_login', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ username, password })
-      });
+      const hRes = await fetch('/host_login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
       const hData = await hRes.json();
       if (hData.success) {
         currentRole = 'host'; currentUserName = 'Host Admin';
-        applyRoleUI();
-        showHostDashboard();
-        switchTab('host');
-        showToast('Welcome, Host!', 'success');
+        applyRoleUI(); showHostDashboard(); switchTab('host');
+        showToast('Welcome, Host! 🔑', 'success');
       } else {
-        alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Invalid credentials.</div></div>`;
+        alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`;
       }
     }
-  } catch(e) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error logging in.</div></div>`;
-  } finally {
-    btn.disabled = false; sp.style.display = 'none';
-  }
+  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Connection error. Please try again.</div></div>`; }
+  finally { btn.disabled = false; sp.style.display = 'none'; }
 }
 
 async function doSignup() {
-  const btn = document.getElementById('signup-btn');
-  const sp = document.getElementById('signup-spinner');
+  const btn = document.getElementById('signup-btn'); const sp = document.getElementById('signup-spinner');
   const alertEl = document.getElementById('signup-alert');
   const name = document.getElementById('signup-name').value.trim();
   const email = document.getElementById('signup-email').value.trim();
   const username = document.getElementById('signup-user').value.trim();
   const password = document.getElementById('signup-pass').value.trim();
-  if (!name || !email || !username || !password) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please fill in all fields.</div></div>`;
-    return;
-  }
+  if (!name || !email || !username || !password) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please fill in all fields.</div></div>`; return; }
   btn.disabled = true; sp.style.display = 'inline-block';
   try {
-    const res = await fetch('/guest_signup', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ name, email, username, password })
-    });
+    const res = await fetch('/guest_signup', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, email, username, password}) });
     const data = await res.json();
     if (data.success) {
-      currentRole = 'guest';
-      currentUserName = data.name;
-      currentUserEmail = email;
-      applyRoleUI();
-      showToast(`Account created! Welcome, ${data.name}!`, 'success');
-      switchTab('home');
-    } else {
-      alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${data.error || 'Error creating account.'}</div></div>`;
-    }
-  } catch(e) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Network error.</div></div>`;
-  } finally {
-    btn.disabled = false; sp.style.display = 'none';
-  }
+      currentRole = 'guest'; currentUserName = data.name; currentUserEmail = email;
+      applyRoleUI(); showToast(`Account created! Welcome, ${data.name}! 🎉`, 'success'); switchTab('home');
+    } else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${data.error || 'Error creating account.'}</div></div>`; }
+  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Connection error.</div></div>`; }
+  finally { btn.disabled = false; sp.style.display = 'none'; }
 }
 
 async function doGuestLogout() {
-  await fetch('/guest_logout', { method: 'POST' });
+  await fetch('/guest_logout', { method:'POST' });
   currentRole = 'visitor'; currentUserName = '';
-  applyRoleUI();
-  showToast('Signed out', 'info');
-  switchTab('home');
+  applyRoleUI(); showToast('Signed out. Goodbye! 👋', 'info'); switchTab('home');
 }
 
 // ===== COOK AUTH =====
 async function doCookLogin() {
-  const btn = document.getElementById('cook-login-btn');
-  const sp = document.getElementById('cook-login-spinner');
+  const btn = document.getElementById('cook-login-btn'); const sp = document.getElementById('cook-login-spinner');
   const alertEl = document.getElementById('cook-login-alert');
   btn.disabled = true; sp.style.display = 'inline-block';
   try {
-    const res = await fetch('/cook_login', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        username: document.getElementById('cook-login-user').value,
-        password: document.getElementById('cook-login-pass').value
-      })
-    });
+    const res = await fetch('/cook_login', { method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ username:document.getElementById('cook-login-user').value, password:document.getElementById('cook-login-pass').value }) });
     const data = await res.json();
-    if (data.success) {
-      currentRole = 'cook'; currentUserName = data.name;
-      applyRoleUI();
-      showCookDashboard();
-      showToast(`Welcome, ${data.name}!`, 'success');
-    } else {
-      alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Invalid credentials. Try: cook1 / cook2025</div></div>`;
-    }
-  } catch(e) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error.</div></div>`;
-  } finally {
-    btn.disabled = false; sp.style.display = 'none';
-  }
+    if (data.success) { currentRole = 'cook'; currentUserName = data.name; applyRoleUI(); showCookDashboard(); showToast(`Welcome, ${data.name}! 👨‍🍳`, 'success'); }
+    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong credentials. Try: cook1 / cook2025</div></div>`; }
+  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error.</div></div>`; }
+  finally { btn.disabled = false; sp.style.display = 'none'; }
 }
 
 async function doCookLogout() {
-  await fetch('/cook_logout', { method: 'POST' });
-  await fetch('/guest_logout', { method: 'POST' });
+  await fetch('/cook_logout', { method:'POST' });
+  await fetch('/guest_logout', { method:'POST' });
   currentRole = 'visitor'; currentUserName = '';
   document.getElementById('cook-dashboard').style.display = 'none';
   document.getElementById('cook-login-wrap').style.display = 'block';
-  applyRoleUI();
-  showToast('Signed out', 'info');
-  switchTab('home');
+  applyRoleUI(); showToast('Signed out. See you next time! 👋', 'info'); switchTab('home');
 }
 
 function showCookDashboard() {
   document.getElementById('cook-login-wrap').style.display = 'none';
   document.getElementById('cook-dashboard').style.display = 'block';
   loadCookRSVP();
-  loadCookMenu('Monday', document.querySelector('#cook-day-selector .day-btn'));
+  loadRecommendations();
 }
 
 // ===== HOST AUTH =====
 async function doHostLogin() {
-  const btn = document.getElementById('host-login-btn');
-  const sp = document.getElementById('host-login-spinner');
+  const btn = document.getElementById('host-login-btn'); const sp = document.getElementById('host-login-spinner');
   const alertEl = document.getElementById('host-login-alert');
   btn.disabled = true; sp.style.display = 'inline-block';
   try {
-    const res = await fetch('/host_login', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        username: document.getElementById('host-login-user').value,
-        password: document.getElementById('host-login-pass').value
-      })
-    });
+    const res = await fetch('/host_login', { method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ username:document.getElementById('host-login-user').value, password:document.getElementById('host-login-pass').value }) });
     const data = await res.json();
-    if (data.success) {
-      currentRole = 'host'; currentUserName = 'Host Admin';
-      applyRoleUI();
-      showHostDashboard();
-      showToast('Logged in as Host', 'success');
-    } else {
-      alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Invalid credentials. Try: admin / soupkitchen2025</div></div>`;
-    }
-  } catch(e) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error logging in.</div></div>`;
-  } finally {
-    btn.disabled = false; sp.style.display = 'none';
-  }
+    if (data.success) { currentRole = 'host'; currentUserName = 'Host Admin'; applyRoleUI(); showHostDashboard(); showToast('Logged in as Host 🔑', 'success'); }
+    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong credentials. Try: admin / soupkitchen2025</div></div>`; }
+  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error.</div></div>`; }
+  finally { btn.disabled = false; sp.style.display = 'none'; }
 }
 
 async function doHostLogout() {
-  await fetch('/host_logout', { method: 'POST' });
+  await fetch('/host_logout', { method:'POST' });
   currentRole = 'visitor'; currentUserName = '';
   document.getElementById('host-dashboard').style.display = 'none';
   document.getElementById('host-login-wrap').style.display = 'block';
-  applyRoleUI();
-  showToast('Signed out', 'info');
-  switchTab('home');
+  applyRoleUI(); showToast('Signed out 👋', 'info'); switchTab('home');
 }
 
 function showHostDashboard() {
   document.getElementById('host-login-wrap').style.display = 'none';
   document.getElementById('host-dashboard').style.display = 'block';
-  loadHostData();
-  loadHostRSVP();
+  loadHostData(); loadHostRSVP();
 }
 
 // ===== RSVP =====
 async function submitRSVP() {
-  const btn = document.getElementById('rsvp-btn');
-  const sp = document.getElementById('rsvp-spinner');
+  const btn = document.getElementById('rsvp-btn'); const sp = document.getElementById('rsvp-spinner');
   const alertEl = document.getElementById('rsvp-alert');
   const rsvpDate = document.getElementById('rsvp-date').value;
   const guests = document.getElementById('rsvp-guests').value;
   const location = document.getElementById('rsvp-location').value;
-
-  if (!rsvpDate) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please select a date.</div></div>`;
-    return;
-  }
-
+  if (!rsvpDate) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please pick a date!</div></div>`; return; }
   btn.disabled = true; sp.style.display = 'inline-block';
   try {
-    const res = await fetch('/rsvp', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ date: rsvpDate, guests: parseInt(guests), location, email: currentUserEmail || '' })
-    });
+    const res = await fetch('/rsvp', { method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ date:rsvpDate, guests:parseInt(guests), location, email:currentUserEmail || '' }) });
     const data = await res.json();
     if (data.success) {
-      alertEl.innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>RSVP confirmed!</strong> We'll see you on ${rsvpDate} at ${location}. Thank you!</div></div>`;
-      showToast("You're on the list! 🍲", 'success');
-      loadStats();
-    } else {
-      alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${data.error || 'Error submitting RSVP.'}</div></div>`;
-    }
-  } catch(e) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Network error.</div></div>`;
-  } finally {
-    btn.disabled = false; sp.style.display = 'none';
-  }
+      alertEl.innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>You are on the list!</strong> See you on ${rsvpDate} at ${location}. We look forward to seeing you! 😊</div></div>`;
+      showToast("You're on the list! See you there! 🍲", 'success'); loadStats();
+    } else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${data.error || 'Something went wrong.'}</div></div>`; }
+  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Connection error.</div></div>`; }
+  finally { btn.disabled = false; sp.style.display = 'none'; }
 }
 
 async function loadCookRSVP() {
-  const dateEl = document.getElementById('cook-rsvp-date');
-  const rsvpDate = dateEl ? dateEl.value : new Date().toISOString().split('T')[0];
+  const rsvpDate = document.getElementById('cook-rsvp-date')?.value || new Date().toISOString().split('T')[0];
   try {
     const res = await fetch(`/get_rsvp?date=${rsvpDate}`);
     const data = await res.json();
@@ -1803,8 +1579,7 @@ async function loadCookRSVP() {
 }
 
 async function loadHostRSVP() {
-  const dateEl = document.getElementById('host-rsvp-date');
-  const rsvpDate = dateEl ? dateEl.value : new Date().toISOString().split('T')[0];
+  const rsvpDate = document.getElementById('host-rsvp-date')?.value || new Date().toISOString().split('T')[0];
   try {
     const res = await fetch(`/get_rsvp?date=${rsvpDate}`);
     const data = await res.json();
@@ -1818,104 +1593,158 @@ function renderRSVPList(containerId, entries) {
   const container = document.getElementById(containerId);
   if (!container) return;
   if (!entries.length) {
-    container.innerHTML = `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>No RSVPs for this date yet.</div></div>`;
+    container.innerHTML = `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>No RSVPs for this date yet. Check back later!</div></div>`;
     return;
   }
   container.innerHTML = entries.map(e => `
     <div class="rsvp-entry">
       <div>
         <div class="rsvp-name">${e.name}</div>
-        <div class="rsvp-meta">${e.location || '–'} · Submitted ${new Date(e.timestamp).toLocaleTimeString()}</div>
+        <div class="rsvp-meta">📍 ${e.location || '–'} &nbsp;·&nbsp; 🕐 ${new Date(e.timestamp).toLocaleTimeString()}</div>
       </div>
-      <span class="rsvp-guests-badge">+${e.guests} ${e.guests == 1 ? 'person' : 'people'}</span>
+      <span class="rsvp-guests-badge">👥 ${e.guests} ${e.guests == 1 ? 'person' : 'people'}</span>
     </div>
   `).join('');
 }
 
+// ===== EXPIRY DATA =====
+async function loadExpiryData() {
+  try {
+    const res = await fetch('/get_inventory_with_expiry');
+    expiryData = await res.json();
+    renderExpiryTable(expiryData);
+  } catch(e) {}
+}
+
+function renderExpiryTable(data) {
+  const tbody = document.getElementById('expiry-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = data.map(row => {
+    const rowClass = row.urgency === 'critical' ? 'expiry-critical' : row.urgency === 'urgent' ? 'expiry-urgent' : row.urgency === 'soon' ? 'expiry-soon' : '';
+    const badge = `<span class="expiry-badge ${row.urgency}">${
+      row.urgency === 'critical' ? '🔴 EXPIRES SOON' :
+      row.urgency === 'urgent' ? '🟠 This Week' :
+      row.urgency === 'soon' ? '🟡 2 Weeks' : '🟢 OK'
+    }</span>`;
+    const daysText = row.days_left < 0 ? '<span style="color:var(--red);font-weight:900;">EXPIRED!</span>' :
+                     row.days_left === 0 ? '<span style="color:var(--red);font-weight:900;">TODAY!</span>' :
+                     `${row.days_left} days`;
+    return `<tr class="${rowClass}">
+      <td><strong>${row.item}</strong></td>
+      <td>${row.quantity}</td>
+      <td>${row.expiry_date}</td>
+      <td>${daysText}</td>
+      <td>${badge}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterExpiryTable() {
+  const q = document.getElementById('expiry-search').value.toLowerCase();
+  renderExpiryTable(expiryData.filter(r => r.item.toLowerCase().includes(q)));
+}
+
+// ===== RECOMMENDATIONS =====
+async function loadRecommendations() {
+  try {
+    const res = await fetch('/get_cook_recommendations');
+    const recs = await res.json();
+    const container = document.getElementById('recommendations-list');
+    if (!container) return;
+    if (!recs.length) {
+      container.innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>Great news!</strong> No urgent items right now. Everything is well-stocked and fresh!</div></div>`;
+      return;
+    }
+    container.innerHTML = recs.map(r => `
+      <div class="rec-card ${r.priority_level}">
+        <div class="rec-card-icon">${r.priority_level === 'critical' ? '🔴' : r.priority_level === 'urgent' ? '🟠' : '🟡'}</div>
+        <div class="rec-card-body">
+          <div class="rec-card-priority">${r.priority}</div>
+          <div class="rec-card-item">${r.item}</div>
+          <div class="rec-card-msg">${r.message}</div>
+          <div class="rec-card-meta">📦 ${r.quantity} units in stock &nbsp;·&nbsp; ⏰ ${r.days_left} day(s) left</div>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {}
+}
+
 // ===== MENU =====
 async function loadMenu(day, btn) {
-  if (btn) {
-    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
+  if (btn) { document.querySelectorAll('#day-selector .day-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
   try {
     const res = await fetch(`/get_menu?day=${day}`);
     const data = await res.json();
     document.getElementById('meal-name').textContent = data.meal || 'No menu available';
-    document.getElementById('ingredient-list').innerHTML = (data.ingredients || []).map(i => `<li class="ingredient-tag">${i}</li>`).join('');
-    const lbl = document.getElementById('menu-day-label');
-    if (lbl) lbl.textContent = day.toUpperCase();
-  } catch(e) {
-    document.getElementById('meal-name').textContent = 'Could not load menu';
-  }
+    document.getElementById('menu-day-label').textContent = day.toUpperCase();
+    document.getElementById('ingredient-list').innerHTML = (data.ingredients || []).map(i =>
+      `<li class="ingredient-tag" onclick="showRecipes('${i.trim()}')" title="Tap to see home recipes!">
+        ${i}<span class="recipe-hint">Recipes</span>
+      </li>`
+    ).join('');
+  } catch(e) { document.getElementById('meal-name').textContent = 'Could not load menu'; }
 }
 
 async function loadCookMenu(day, btn) {
-  if (btn) {
-    document.querySelectorAll('#cook-day-selector .day-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
+  if (btn) { document.querySelectorAll('#cook-day-selector .day-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
   try {
     const res = await fetch(`/get_menu?day=${day}`);
     const data = await res.json();
     document.getElementById('cook-meal-name').textContent = data.meal || '–';
-    document.getElementById('cook-ingredient-list').innerHTML = (data.ingredients || []).map(i => `<li class="ingredient-tag">${i}</li>`).join('');
-    const lbl = document.getElementById('cook-menu-day-label');
-    if (lbl) lbl.textContent = day.toUpperCase();
+    document.getElementById('cook-menu-day-label').textContent = day.toUpperCase();
+    document.getElementById('cook-ingredient-list').innerHTML = (data.ingredients || []).map(i =>
+      `<li class="ingredient-tag">${i}</li>`
+    ).join('');
   } catch(e) {}
 }
 
 // ===== FORECAST =====
 async function getCookForecast() {
   try {
-    const payload = buildForecastPayload('cf-');
-    const res = await fetch('/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    const res = await fetch('/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(buildForecastPayload('cf-')) });
     const data = await res.json();
     if (data.error) { showToast(data.error, 'error'); return; }
     animateNumber('cf-guests', data.guests);
     document.getElementById('cf-soup').textContent = data.soup;
     document.getElementById('cf-bread').textContent = data.bread;
     document.getElementById('cf-pills').style.display = 'flex';
-    document.getElementById('cf-alert').innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>${data.guests} guests expected.</strong> Prep ${data.soup} soup bowls and ${data.bread} bread pieces.</div></div>`;
-  } catch(e) { showToast('Error', 'error'); }
+    document.getElementById('cf-alert').innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>${data.guests} guests expected.</strong> Prepare ${data.soup} soup bowls and ${data.bread} bread pieces.</div></div>`;
+  } catch(e) { showToast('Error getting forecast', 'error'); }
 }
 
 async function getHostForecast() {
   try {
-    const payload = buildForecastPayload('hf-');
-    const res = await fetch('/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    const res = await fetch('/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(buildForecastPayload('hf-')) });
     const data = await res.json();
     if (data.error) { showToast(data.error, 'error'); return; }
     animateNumber('hf-guests', data.guests);
     document.getElementById('hf-soup').textContent = data.soup;
     document.getElementById('hf-bread').textContent = data.bread;
     document.getElementById('hf-pills').style.display = 'flex';
-    document.getElementById('hf-alert').innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>${data.guests} guests expected.</strong> Prep ${data.soup} soup bowls and ${data.bread} bread.</div></div>`;
+    document.getElementById('hf-alert').innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>${data.guests} guests expected.</strong></div></div>`;
   } catch(e) { showToast('Error', 'error'); }
 }
 
 function buildForecastPayload(prefix) {
   return {
-    month: document.getElementById(prefix + 'month').value,
-    temp: document.getElementById(prefix + 'temp').value,
-    rain: document.getElementById(prefix + 'rain').checked ? 1 : 0,
-    snow: document.getElementById(prefix + 'snow').checked ? 1 : 0,
-    holiday: document.getElementById(prefix + 'holiday').checked ? 1 : 0,
-    event: document.getElementById(prefix + 'event').checked ? 1 : 0,
-    eom: document.getElementById(prefix + 'eom').checked ? 1 : 0,
+    month: document.getElementById(prefix+'month').value,
+    temp: document.getElementById(prefix+'temp').value,
+    rain: document.getElementById(prefix+'rain').checked ? 1 : 0,
+    snow: document.getElementById(prefix+'snow').checked ? 1 : 0,
+    holiday: document.getElementById(prefix+'holiday').checked ? 1 : 0,
+    event: document.getElementById(prefix+'event').checked ? 1 : 0,
+    eom: document.getElementById(prefix+'eom').checked ? 1 : 0,
   };
 }
 
 function animateNumber(id, target) {
   const el = document.getElementById(id);
   const start = parseInt(el.textContent) || 0;
-  const duration = 600;
-  const startTime = performance.now();
+  const duration = 650; const startTime = performance.now();
   const update = (now) => {
-    const progress = Math.min((now - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(start + (target - start) * eased);
-    if (progress < 1) requestAnimationFrame(update);
+    const p = Math.min((now - startTime) / duration, 1);
+    el.textContent = Math.round(start + (target - start) * (1 - Math.pow(1-p, 3)));
+    if (p < 1) requestAnimationFrame(update);
   };
   requestAnimationFrame(update);
 }
@@ -1937,17 +1766,20 @@ function renderInventory(tbodyId, data, compact = false) {
   if (!tbody) return;
   tbody.innerHTML = data.map(row => {
     const low = row.quantity < 10;
-    const badge = low
-      ? `<span class="stock-badge low">⚠ Low</span>`
-      : `<span class="stock-badge ok">✓ OK</span>`;
-    if (compact) {
-      return `<tr class="${low?'low-stock':''}"><td>${row.item}</td><td><strong>${row.quantity}</strong></td></tr>`;
-    }
-    return `<tr class="${low?'low-stock':''}">
-      <td><strong>${row.item}</strong></td>
-      <td>${row.quantity}</td>
-      <td>${badge}</td>
-    </tr>`;
+    const badge = low ? `<span class="stock-badge low">⚠️ Low</span>` : `<span class="stock-badge ok">✓ Good</span>`;
+    if (compact) return `<tr class="${low?'low-stock':''}"><td>${row.item}</td><td><strong>${row.quantity}</strong></td></tr>`;
+    return `<tr class="${low?'low-stock':''}"><td><strong>${row.item}</strong></td><td>${row.quantity}</td><td>${badge}</td></tr>`;
+  }).join('');
+}
+
+function renderHostInventory(data) {
+  const tbody = document.getElementById('h-inv-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = data.map(row => {
+    const low = row.quantity < 10;
+    const expiry = row.expiry_date || '–';
+    const badge = low ? `<span class="stock-badge low">⚠️ Low</span>` : `<span class="stock-badge ok">✓ Good</span>`;
+    return `<tr class="${low?'low-stock':''}"><td><strong>${row.item}</strong></td><td>${row.quantity}</td><td>${expiry}</td><td>${badge}</td></tr>`;
   }).join('');
 }
 
@@ -1958,15 +1790,15 @@ function filterInventory() {
 
 function filterHostInventory() {
   const q = document.getElementById('h-inv-search').value.toLowerCase();
-  renderInventory('h-inv-tbody', inventoryData.filter(r => r.item.toLowerCase().includes(q)));
+  renderHostInventory(inventoryData.filter(r => r.item.toLowerCase().includes(q)));
 }
 
 function populateItemSelects() {
   const dSel = document.getElementById('d-item-select');
   if (dSel) {
-    dSel.innerHTML = '<option value="">— Select an item —</option>' +
+    dSel.innerHTML = '<option value="">— Choose an item —</option>' +
       inventoryData.map(r => `<option value="${r.item}">${r.item}</option>`).join('') +
-      '<option value="__custom">Other (custom)...</option>';
+      '<option value="__custom">Other (type your own)...</option>';
   }
   const hSel = document.getElementById('h-update-item');
   if (hSel) {
@@ -1989,31 +1821,20 @@ function updateStats() {
   document.getElementById('stat-inventory').textContent = inventoryData.length;
   document.getElementById('stat-low').textContent = low;
   const lowEl = document.getElementById('low-stock-count');
-  if (lowEl) lowEl.textContent = low + ' low stock item' + (low !== 1 ? 's' : '');
+  if (lowEl) lowEl.textContent = low + ' item' + (low !== 1 ? 's' : '') + ' running low';
 }
 
 async function loadStats() {
   try {
-    const res = await fetch('/get_pending');
-    const pend = await res.json();
-    // Don't show RSVP stat to visitors on hero (would need auth to get)
-    // Just update pending count
-  } catch(e) {}
-
-  // Update RSVP today stat - public count only
-  try {
-    const today = new Date().toISOString().split('T')[0];
-    // Only if we're a cook or host
     if (currentRole === 'cook' || currentRole === 'host') {
+      const today = new Date().toISOString().split('T')[0];
       const res = await fetch(`/get_rsvp?date=${today}`);
       const data = await res.json();
       document.getElementById('stat-rsvp-today').textContent = data.total_people || 0;
     } else {
       document.getElementById('stat-rsvp-today').textContent = '–';
     }
-  } catch(e) {
-    document.getElementById('stat-rsvp-today').textContent = '–';
-  }
+  } catch(e) { document.getElementById('stat-rsvp-today').textContent = '–'; }
 }
 
 // ===== LOCATIONS =====
@@ -2029,7 +1850,7 @@ function renderLocations(containerId) {
     <div class="location-card">
       <div class="location-name">📍 ${loc.name}</div>
       <div class="location-detail">
-        ${loc.address}<br>
+        📮 ${loc.address}<br>
         📞 <a href="tel:${loc.phone}">${loc.phone}</a><br>
         ✉️ <a href="mailto:${loc.email}">${loc.email}</a>
       </div>
@@ -2039,40 +1860,25 @@ function renderLocations(containerId) {
 
 // ===== DONATION =====
 async function submitDonation() {
-  const btn = document.getElementById('donate-btn');
-  const sp = document.getElementById('donate-spinner');
+  const btn = document.getElementById('donate-btn'); const sp = document.getElementById('donate-spinner');
   const alertEl = document.getElementById('donate-alert');
   let item = document.getElementById('d-item-select').value;
   if (item === '__custom') item = document.getElementById('d-custom-item').value.trim();
   const qty = document.getElementById('d-qty').value;
   const name = document.getElementById('d-name').value.trim();
   const email = document.getElementById('d-email').value.trim();
-  if (!item || !name || !email) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please fill in all fields.</div></div>`;
-    return;
-  }
+  if (!item || !name || !email) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please fill in all fields.</div></div>`; return; }
   btn.disabled = true; sp.style.display = 'inline-block';
   try {
-    const res = await fetch('/submit_donation', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ item, quantity: qty, donor_name: name, email })
-    });
+    const res = await fetch('/submit_donation', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({item, quantity:qty, donor_name:name, email}) });
     const data = await res.json();
     if (data.success) {
-      alertEl.innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>Donation request #${data.donation_id} submitted!</strong> The host will approve it after you deliver the items.</div></div>`;
-      document.getElementById('d-qty').value = 10;
-      document.getElementById('d-name').value = '';
-      document.getElementById('d-email').value = '';
-      showToast('Donation request submitted!', 'success');
-    } else {
-      alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${data.error || 'Error'}</div></div>`;
-    }
-  } catch(e) {
-    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Network error.</div></div>`;
-  } finally {
-    btn.disabled = false; sp.style.display = 'none';
-  }
+      alertEl.innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>Thank you! Donation request #${data.donation_id} submitted!</strong> The host will approve it after you deliver the items. You are amazing! 🌟</div></div>`;
+      document.getElementById('d-qty').value = 10; document.getElementById('d-name').value = ''; document.getElementById('d-email').value = '';
+      showToast('Donation request submitted! 🤝', 'success');
+    } else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${data.error || 'Error'}</div></div>`; }
+  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Connection error.</div></div>`; }
+  finally { btn.disabled = false; sp.style.display = 'none'; }
 }
 
 // ===== HOST DATA =====
@@ -2082,24 +1888,19 @@ async function loadHostData() {
     const invData = await invRes.json();
     inventoryData = invData;
     const pendData = await pendRes.json();
-
-    renderInventory('h-inv-tbody', invData);
+    renderHostInventory(invData);
     populateItemSelects();
-
     const low = invData.filter(r => r.quantity < 10).length;
     const pending = pendData.filter(r => r.status === 'pending').length;
     document.getElementById('hm-total').textContent = invData.length;
     document.getElementById('hm-low').textContent = low;
     document.getElementById('hm-pend').textContent = pending;
-
     renderPendingList(pendData.filter(r => r.status === 'pending'));
-
     const approved = pendData.filter(r => r.status === 'approved');
     const approvedTbody = document.getElementById('approved-tbody');
     approvedTbody.innerHTML = approved.length
-      ? approved.map(r => `<tr><td><span class="donation-id-badge">#${r.donation_id}</span></td><td>${r.donor_name}</td><td style="color:var(--text2)">${r.email}</td><td><strong>${r.item}</strong></td><td>${r.quantity}</td><td><span class="stock-badge ok">Approved</span></td></tr>`).join('')
-      : `<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:28px;">No approved donations yet.</td></tr>`;
-
+      ? approved.map(r => `<tr><td><span class="donation-id-badge">#${r.donation_id}</span></td><td>${r.donor_name}</td><td style="color:var(--text2)">${r.email}</td><td><strong>${r.item}</strong></td><td>${r.quantity}</td><td><span class="stock-badge ok">✅ Approved</span></td></tr>`).join('')
+      : `<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:28px;font-size:1.1rem;">No approved donations yet.</td></tr>`;
     updateStats();
   } catch(e) {}
 }
@@ -2107,19 +1908,13 @@ async function loadHostData() {
 function renderPendingList(pending) {
   const container = document.getElementById('pending-list');
   if (!pending.length) {
-    container.innerHTML = `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>No pending donations at the moment.</div></div>`;
+    container.innerHTML = `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>No pending donations at the moment. Check back later!</div></div>`;
     return;
   }
   container.innerHTML = pending.map(r => `
     <div class="donation-row">
-      <div>
-        <div class="donor-name">${r.donor_name}</div>
-        <div class="donor-email">${r.email}</div>
-      </div>
-      <div>
-        <div class="item-info">${r.item}</div>
-        <div class="item-qty">× ${r.quantity} units</div>
-      </div>
+      <div><div class="donor-name">${r.donor_name}</div><div class="donor-email">${r.email}</div></div>
+      <div><div class="item-info">${r.item}</div><div class="item-qty">× ${r.quantity} units</div></div>
       <span class="donation-id-badge">#${r.donation_id}</span>
       <button class="btn btn-green btn-sm" onclick="approveDonation(${r.donation_id})">✓ Approve</button>
     </div>
@@ -2128,18 +1923,10 @@ function renderPendingList(pending) {
 
 async function approveDonation(id) {
   try {
-    const res = await fetch('/approve_donation', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ donation_id: id })
-    });
+    const res = await fetch('/approve_donation', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({donation_id:id}) });
     const data = await res.json();
-    if (data.success) {
-      showToast(`Donation #${id} approved!`, 'success');
-      loadHostData(); loadInventory();
-    } else {
-      showToast(data.error || 'Error', 'error');
-    }
+    if (data.success) { showToast(`Donation #${id} approved! 🎉`, 'success'); loadHostData(); loadInventory(); }
+    else { showToast(data.error || 'Error', 'error'); }
   } catch(e) { showToast('Error', 'error'); }
 }
 
@@ -2148,31 +1935,21 @@ async function updateInventoryItem() {
   const qty = document.getElementById('h-update-qty').value;
   if (!item) return;
   try {
-    const res = await fetch('/update_inventory', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ item, quantity: qty })
-    });
+    const res = await fetch('/update_inventory', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({item, quantity:qty}) });
     const data = await res.json();
-    if (data.success) {
-      showToast(`Updated ${item} to ${qty}`, 'success');
-      loadHostData(); loadInventory();
-    }
+    if (data.success) { showToast(`Updated ${item} to ${qty} units ✅`, 'success'); loadHostData(); loadInventory(); }
   } catch(e) { showToast('Error', 'error'); }
 }
 
 // ===== TOAST =====
 function showToast(msg, type = 'info') {
-  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  const icons = { success:'✅', error:'❌', info:'ℹ️' };
   const container = document.getElementById('toast-container');
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${msg}</span>`;
+  toast.innerHTML = `<span style="font-size:1.3rem;">${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
   container.appendChild(toast);
-  setTimeout(() => {
-    toast.classList.add('out');
-    setTimeout(() => toast.remove(), 350);
-  }, 3500);
+  setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 350); }, 4000);
 }
 </script>
 </body>
