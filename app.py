@@ -14,6 +14,7 @@ app.config['SESSION_COOKIE_SECURE'] = True
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data/raw")
+os.makedirs(DATA_DIR, exist_ok=True)
 
 model = None
 feature_names = []
@@ -210,7 +211,7 @@ def init_guest_accounts():
         df = pd.DataFrame(columns=["username", "password", "name", "email", "role"])
         seed = pd.DataFrame([{
             "username": "cook1", "password": "cook2025",
-            "name": "Chef", "email": "cook@soup.org", "role": "cook"
+            "name": "Chef Maria", "email": "cook@soup.org", "role": "cook"
         }])
         df = pd.concat([df, seed], ignore_index=True)
         df.to_csv(guests_path, index=False)
@@ -522,15 +523,20 @@ def submit_rsvp():
     if not session.get('guest_logged_in') and not session.get('host_logged_in') and not session.get('cook_logged_in'):
         return jsonify({"error": "Please log in to RSVP"}), 401
     data = request.json
-    rsvp_date = data.get('date', str(date.today()))
+    rsvp_date = str(data.get('date', str(date.today()))).strip()
     guests_count = int(data.get('guests', 1))
     location = data.get('location', '').strip()
     name = session.get('guest_name', data.get('name', ''))
-    email = data.get('email', '')
+    email = str(data.get('email', '')).strip()
     rsvp = load_rsvp()
-    existing = rsvp[(rsvp['email'] == email) & (rsvp['rsvp_date'] == rsvp_date)] if email else pd.DataFrame()
-    if not existing.empty:
-        return jsonify({"error": "You have already RSVP'd for this date"}), 400
+    # Ensure rsvp_date column is always string for comparison
+    if not rsvp.empty:
+        rsvp['rsvp_date'] = rsvp['rsvp_date'].astype(str).str.strip()
+        rsvp['email'] = rsvp['email'].astype(str).str.strip()
+        if email:
+            existing = rsvp[(rsvp['email'] == email) & (rsvp['rsvp_date'] == rsvp_date)]
+            if not existing.empty:
+                return jsonify({"error": "You have already RSVP'd for this date"}), 400
     new_row = pd.DataFrame([{
         "rsvp_date": rsvp_date, "name": name, "email": email,
         "guests": guests_count, "location": location,
@@ -545,9 +551,13 @@ def get_rsvp():
     role = get_current_role()
     if role not in ('host', 'cook'):
         return jsonify({"error": "Unauthorized"}), 401
-    rsvp_date = request.args.get('date', str(date.today()))
+    rsvp_date = str(request.args.get('date', str(date.today()))).strip()
     rsvp = load_rsvp()
-    day_rsvp = rsvp[rsvp['rsvp_date'] == rsvp_date] if not rsvp.empty else pd.DataFrame()
+    if rsvp.empty:
+        return jsonify({"date": rsvp_date, "total_people": 0, "rsvp_count": 0, "entries": []})
+    # Always compare as strings to avoid dtype mismatch
+    rsvp['rsvp_date'] = rsvp['rsvp_date'].astype(str).str.strip()
+    day_rsvp = rsvp[rsvp['rsvp_date'] == rsvp_date]
     total_people = int(day_rsvp['guests'].sum()) if not day_rsvp.empty else 0
     return jsonify({
         "date": rsvp_date, "total_people": total_people,

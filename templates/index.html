@@ -87,12 +87,12 @@
   .nav-logo {
     font-family: var(--font-title);
     font-size: 1.8rem;
-    color: var(--accent);
+    color: #1A5276;
     display: flex; align-items: center; gap: 10px;
     text-decoration: none;
     white-space: nowrap; flex-shrink: 0;
     letter-spacing: 0.5px;
-    text-shadow: 2px 2px 0 rgba(255,112,67,0.15);
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
   }
   .nav-logo .logo-icon {
     width: 44px; height: 44px;
@@ -944,9 +944,7 @@
             🔓 Sign In
           </button>
         </div>
-        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.9rem;font-weight:700;">
-          Cook demo: cook1 / cook2025 &nbsp;·&nbsp; Host: admin / soupkitchen2025
-        </p>
+
       </div>
       <div class="auth-form" id="auth-signup">
         <div class="card">
@@ -980,7 +978,7 @@
             👨‍🍳 Sign In as Cook
           </button>
         </div>
-        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.9rem;font-weight:700;">Demo: cook1 / cook2025</p>
+
       </div>
     </div>
 
@@ -1126,7 +1124,7 @@
         <div class="auth-title">Host Login</div>
         <div class="auth-sub">Manage donations, update inventory, and view full reports.</div>
         <div class="card">
-          <div class="form-group"><label>Username</label><input type="text" id="host-login-user" value="admin"></div>
+          <div class="form-group"><label>Username</label><input type="text" id="host-login-user" placeholder="Username"></div>
           <div class="form-group"><label>Password</label><input type="password" id="host-login-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doHostLogin()"></div>
           <div id="host-login-alert" style="margin-bottom:12px;"></div>
           <button class="btn btn-primary btn-block" onclick="doHostLogin()" id="host-login-btn" style="font-size:1.15rem;">
@@ -1134,7 +1132,7 @@
             🔑 Sign In as Host
           </button>
         </div>
-        <p style="text-align:center;color:var(--text3);margin-top:12px;font-size:0.9rem;font-weight:700;">Demo: admin / soupkitchen2025</p>
+
       </div>
     </div>
 
@@ -1274,9 +1272,18 @@ let currentRole = 'visitor';
 let currentUserName = '';
 let currentUserEmail = '';
 
+// ===== LOCAL DATE HELPER — avoids UTC timezone shift =====
+function localToday() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', async () => {
-  const today = new Date().toISOString().split('T')[0];
+  const today = localToday();
   ['rsvp-date','cook-rsvp-date','host-rsvp-date'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = today;
@@ -1496,7 +1503,7 @@ async function doCookLogin() {
       body:JSON.stringify({ username:document.getElementById('cook-login-user').value, password:document.getElementById('cook-login-pass').value }) });
     const data = await res.json();
     if (data.success) { currentRole = 'cook'; currentUserName = data.name; applyRoleUI(); showCookDashboard(); showToast(`Welcome, ${data.name}! 👨‍🍳`, 'success'); }
-    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong credentials. Try: cook1 / cook2025</div></div>`; }
+    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`; }
   } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error.</div></div>`; }
   finally { btn.disabled = false; sp.style.display = 'none'; }
 }
@@ -1527,7 +1534,7 @@ async function doHostLogin() {
       body:JSON.stringify({ username:document.getElementById('host-login-user').value, password:document.getElementById('host-login-pass').value }) });
     const data = await res.json();
     if (data.success) { currentRole = 'host'; currentUserName = 'Host Admin'; applyRoleUI(); showHostDashboard(); showToast('Logged in as Host 🔑', 'success'); }
-    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong credentials. Try: admin / soupkitchen2025</div></div>`; }
+    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`; }
   } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error.</div></div>`; }
   finally { btn.disabled = false; sp.style.display = 'none'; }
 }
@@ -1568,7 +1575,7 @@ async function submitRSVP() {
 }
 
 async function loadCookRSVP() {
-  const rsvpDate = document.getElementById('cook-rsvp-date')?.value || new Date().toISOString().split('T')[0];
+  const rsvpDate = document.getElementById('cook-rsvp-date')?.value || localToday();
   try {
     const res = await fetch(`/get_rsvp?date=${rsvpDate}`);
     const data = await res.json();
@@ -1579,7 +1586,7 @@ async function loadCookRSVP() {
 }
 
 async function loadHostRSVP() {
-  const rsvpDate = document.getElementById('host-rsvp-date')?.value || new Date().toISOString().split('T')[0];
+  const rsvpDate = document.getElementById('host-rsvp-date')?.value || localToday();
   try {
     const res = await fetch(`/get_rsvp?date=${rsvpDate}`);
     const data = await res.json();
@@ -1827,7 +1834,7 @@ function updateStats() {
 async function loadStats() {
   try {
     if (currentRole === 'cook' || currentRole === 'host') {
-      const today = new Date().toISOString().split('T')[0];
+      const today = localToday();
       const res = await fetch(`/get_rsvp?date=${today}`);
       const data = await res.json();
       document.getElementById('stat-rsvp-today').textContent = data.total_people || 0;
