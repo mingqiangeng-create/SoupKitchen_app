@@ -1439,52 +1439,120 @@ async function doGuestLogin() {
   const alertEl = document.getElementById('login-alert');
   const username = document.getElementById('login-user').value.trim();
   const password = document.getElementById('login-pass').value.trim();
-  if (!username || !password) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please enter your username and password.</div></div>`; return; }
+  if (!username || !password) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please enter your username and password.</div></div>`;
+    return;
+  }
   btn.disabled = true; sp.style.display = 'inline-block';
+  alertEl.innerHTML = '';
+
+  let guestData = null;
+  let hostData = null;
+
   try {
-    const res = await fetch('/guest_login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
-    const data = await res.json();
-    if (data.success) {
-      currentRole = data.role; currentUserName = data.name;
-      alertEl.innerHTML = '';
-      showToast(`Welcome back, ${data.name}! 👋`, 'success');
-      if (data.role === 'cook') {
-        await fetch('/cook_login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
-        applyRoleUI(); showCookDashboard(); switchTab('cook');
-      } else { applyRoleUI(); switchTab('home'); }
+    const res = await fetch('/guest_login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username, password})
+    });
+    guestData = await res.json();
+  } catch(e) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Cannot reach the server. Please check your connection.</div></div>`;
+    btn.disabled = false; sp.style.display = 'none';
+    return;
+  }
+
+  if (guestData && guestData.success) {
+    currentRole = guestData.role || 'guest';
+    currentUserName = guestData.name || username;
+    currentUserEmail = guestData.email || '';
+    showToast(`Welcome back, ${currentUserName}! 👋`, 'success');
+    if (currentRole === 'cook') {
+      try {
+        await fetch('/cook_login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({username, password})
+        });
+      } catch(e) { /* cook session set separately, non-fatal */ }
+      applyRoleUI();
+      showCookDashboard();
+      switchTab('cook');
     } else {
-      const hRes = await fetch('/host_login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
-      const hData = await hRes.json();
-      if (hData.success) {
-        currentRole = 'host'; currentUserName = 'Host Admin';
-        applyRoleUI(); showHostDashboard(); switchTab('host');
-        showToast('Welcome, Host! 🔑', 'success');
-      } else {
-        alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`;
-      }
+      applyRoleUI();
+      switchTab('home');
     }
-  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Connection error. Please try again.</div></div>`; }
-  finally { btn.disabled = false; sp.style.display = 'none'; }
+    btn.disabled = false; sp.style.display = 'none';
+    return;
+  }
+
+  // Try host login
+  try {
+    const hRes = await fetch('/host_login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username, password})
+    });
+    hostData = await hRes.json();
+  } catch(e) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Cannot reach the server. Please check your connection.</div></div>`;
+    btn.disabled = false; sp.style.display = 'none';
+    return;
+  }
+
+  if (hostData && hostData.success) {
+    currentRole = 'host';
+    currentUserName = 'Host Admin';
+    currentUserEmail = '';
+    applyRoleUI();
+    showHostDashboard();
+    switchTab('host');
+    showToast('Welcome, Host! 🔑', 'success');
+  } else {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`;
+  }
+
+  btn.disabled = false; sp.style.display = 'none';
 }
 
 async function doSignup() {
-  const btn = document.getElementById('signup-btn'); const sp = document.getElementById('signup-spinner');
+  const btn = document.getElementById('signup-btn');
+  const sp = document.getElementById('signup-spinner');
   const alertEl = document.getElementById('signup-alert');
   const name = document.getElementById('signup-name').value.trim();
   const email = document.getElementById('signup-email').value.trim();
   const username = document.getElementById('signup-user').value.trim();
   const password = document.getElementById('signup-pass').value.trim();
-  if (!name || !email || !username || !password) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please fill in all fields.</div></div>`; return; }
+  if (!name || !email || !username || !password) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please fill in all fields.</div></div>`;
+    return;
+  }
   btn.disabled = true; sp.style.display = 'inline-block';
+  alertEl.innerHTML = '';
+  let data = null;
   try {
-    const res = await fetch('/guest_signup', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, email, username, password}) });
-    const data = await res.json();
-    if (data.success) {
-      currentRole = 'guest'; currentUserName = data.name; currentUserEmail = email;
-      applyRoleUI(); showToast(`Account created! Welcome, ${data.name}! 🎉`, 'success'); switchTab('home');
-    } else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${data.error || 'Error creating account.'}</div></div>`; }
-  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Connection error.</div></div>`; }
-  finally { btn.disabled = false; sp.style.display = 'none'; }
+    const res = await fetch('/guest_signup', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, email, username, password})
+    });
+    data = await res.json();
+  } catch(e) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Cannot reach the server. Please check your connection.</div></div>`;
+    btn.disabled = false; sp.style.display = 'none';
+    return;
+  }
+  if (data && data.success) {
+    currentRole = 'guest';
+    currentUserName = data.name;
+    currentUserEmail = email;
+    applyRoleUI();
+    showToast(`Account created! Welcome, ${data.name}! 🎉`, 'success');
+    switchTab('home');
+  } else {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>${(data && data.error) || 'Error creating account. Please try again.'}</div></div>`;
+  }
+  btn.disabled = false; sp.style.display = 'none';
 }
 
 async function doGuestLogout() {
@@ -1495,17 +1563,40 @@ async function doGuestLogout() {
 
 // ===== COOK AUTH =====
 async function doCookLogin() {
-  const btn = document.getElementById('cook-login-btn'); const sp = document.getElementById('cook-login-spinner');
+  const btn = document.getElementById('cook-login-btn');
+  const sp = document.getElementById('cook-login-spinner');
   const alertEl = document.getElementById('cook-login-alert');
+  const username = document.getElementById('cook-login-user').value.trim();
+  const password = document.getElementById('cook-login-pass').value.trim();
+  if (!username || !password) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please enter username and password.</div></div>`;
+    return;
+  }
   btn.disabled = true; sp.style.display = 'inline-block';
+  alertEl.innerHTML = '';
+  let data = null;
   try {
-    const res = await fetch('/cook_login', { method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ username:document.getElementById('cook-login-user').value, password:document.getElementById('cook-login-pass').value }) });
-    const data = await res.json();
-    if (data.success) { currentRole = 'cook'; currentUserName = data.name; applyRoleUI(); showCookDashboard(); showToast(`Welcome, ${data.name}! 👨‍🍳`, 'success'); }
-    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`; }
-  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error.</div></div>`; }
-  finally { btn.disabled = false; sp.style.display = 'none'; }
+    const res = await fetch('/cook_login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username, password})
+    });
+    data = await res.json();
+  } catch(e) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Cannot reach the server. Please check your connection.</div></div>`;
+    btn.disabled = false; sp.style.display = 'none';
+    return;
+  }
+  if (data && data.success) {
+    currentRole = 'cook';
+    currentUserName = data.name;
+    applyRoleUI();
+    showCookDashboard();
+    showToast(`Welcome, ${data.name}! 👨‍🍳`, 'success');
+  } else {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`;
+  }
+  btn.disabled = false; sp.style.display = 'none';
 }
 
 async function doCookLogout() {
@@ -1526,17 +1617,41 @@ function showCookDashboard() {
 
 // ===== HOST AUTH =====
 async function doHostLogin() {
-  const btn = document.getElementById('host-login-btn'); const sp = document.getElementById('host-login-spinner');
+  const btn = document.getElementById('host-login-btn');
+  const sp = document.getElementById('host-login-spinner');
   const alertEl = document.getElementById('host-login-alert');
+  const username = document.getElementById('host-login-user').value.trim();
+  const password = document.getElementById('host-login-pass').value.trim();
+  if (!username || !password) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Please enter username and password.</div></div>`;
+    return;
+  }
   btn.disabled = true; sp.style.display = 'inline-block';
+  alertEl.innerHTML = '';
+  let data = null;
   try {
-    const res = await fetch('/host_login', { method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ username:document.getElementById('host-login-user').value, password:document.getElementById('host-login-pass').value }) });
-    const data = await res.json();
-    if (data.success) { currentRole = 'host'; currentUserName = 'Host Admin'; applyRoleUI(); showHostDashboard(); showToast('Logged in as Host 🔑', 'success'); }
-    else { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`; }
-  } catch(e) { alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Error.</div></div>`; }
-  finally { btn.disabled = false; sp.style.display = 'none'; }
+    const res = await fetch('/host_login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username, password})
+    });
+    data = await res.json();
+  } catch(e) {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Cannot reach the server. Please check your connection.</div></div>`;
+    btn.disabled = false; sp.style.display = 'none';
+    return;
+  }
+  if (data && data.success) {
+    currentRole = 'host';
+    currentUserName = 'Host Admin';
+    currentUserEmail = '';
+    applyRoleUI();
+    showHostDashboard();
+    showToast('Logged in as Host 🔑', 'success');
+  } else {
+    alertEl.innerHTML = `<div class="alert alert-error"><span class="alert-icon">⚠️</span><div>Wrong username or password. Please try again.</div></div>`;
+  }
+  btn.disabled = false; sp.style.display = 'none';
 }
 
 async function doHostLogout() {
@@ -1564,7 +1679,7 @@ async function submitRSVP() {
   btn.disabled = true; sp.style.display = 'inline-block';
   try {
     const res = await fetch('/rsvp', { method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ date:rsvpDate, guests:parseInt(guests), location, email:currentUserEmail || '' }) });
+      body:JSON.stringify({ date:rsvpDate, guests:parseInt(guests), location, email: currentUserEmail || '' }) });
     const data = await res.json();
     if (data.success) {
       alertEl.innerHTML = `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>You are on the list!</strong> See you on ${rsvpDate} at ${location}. We look forward to seeing you! 😊</div></div>`;

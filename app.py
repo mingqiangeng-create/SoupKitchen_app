@@ -10,7 +10,7 @@ import random
 app = Flask(__name__)
 app.secret_key = "soupkitchen_secret_2026_new"
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SECURE'] = False
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data/raw")
@@ -202,8 +202,14 @@ def init_menus():
 def init_rsvp():
     rsvp_path = os.path.join(DATA_DIR, "rsvp.csv")
     if not os.path.exists(rsvp_path):
-        df = pd.DataFrame(columns=["rsvp_date", "name", "email", "guests", "location", "timestamp"])
+        df = pd.DataFrame(columns=["rsvp_date", "name", "email", "username", "guests", "location", "timestamp"])
         df.to_csv(rsvp_path, index=False)
+    else:
+        # Migrate existing file: add username column if missing
+        df = pd.read_csv(rsvp_path)
+        if 'username' not in df.columns:
+            df['username'] = df.get('email', '').astype(str)
+            df.to_csv(rsvp_path, index=False)
 
 def init_guest_accounts():
     guests_path = os.path.join(DATA_DIR, "guest_accounts.csv")
@@ -481,8 +487,9 @@ def guest_signup():
     session['guest_logged_in'] = True
     session['guest_username'] = username
     session['guest_name'] = name
+    session['guest_email'] = email
     session['guest_role'] = 'guest'
-    return jsonify({"success": True, "name": name, "role": "guest"})
+    return jsonify({"success": True, "name": name, "role": "guest", "email": email})
 
 @app.route('/guest_login', methods=['POST'])
 def guest_login():
@@ -497,8 +504,9 @@ def guest_login():
     session['guest_logged_in'] = True
     session['guest_username'] = username
     session['guest_name'] = r['name']
+    session['guest_email'] = str(r.get('email', ''))
     session['guest_role'] = r['role']
-    return jsonify({"success": True, "name": r['name'], "role": r['role']})
+    return jsonify({"success": True, "name": r['name'], "role": r['role'], "email": str(r.get('email', ''))})
 
 @app.route('/guest_logout', methods=['POST'])
 def guest_logout():
@@ -526,20 +534,27 @@ def submit_rsvp():
     rsvp_date = str(data.get('date', str(date.today()))).strip()
     guests_count = int(data.get('guests', 1))
     location = data.get('location', '').strip()
-    name = session.get('guest_name', data.get('name', ''))
-    email = str(data.get('email', '')).strip()
+    name = session.get('guest_name', '') or session.get('cook_name', '') or 'Host'
+    email = str(session.get('guest_email', '') or data.get('email', '')).strip()
+    username = session.get('guest_username', '') or session.get('cook_name', '') or 'host'
+
     rsvp = load_rsvp()
-    # Ensure rsvp_date column is always string for comparison
-    if not rsvp.empty:
+
+    # Use username + date as the unique dedup key (reliable even when email is blank)
+    if not rsvp.empty and 'username' in rsvp.columns:
         rsvp['rsvp_date'] = rsvp['rsvp_date'].astype(str).str.strip()
-        rsvp['email'] = rsvp['email'].astype(str).str.strip()
-        if email:
-            existing = rsvp[(rsvp['email'] == email) & (rsvp['rsvp_date'] == rsvp_date)]
-            if not existing.empty:
-                return jsonify({"error": "You have already RSVP'd for this date"}), 400
+        rsvp['username'] = rsvp['username'].astype(str).str.strip()
+        existing = rsvp[(rsvp['username'] == username) & (rsvp['rsvp_date'] == rsvp_date)]
+        if not existing.empty:
+            return jsonify({"error": "You have already RSVP'd for this date"}), 400
+
     new_row = pd.DataFrame([{
-        "rsvp_date": rsvp_date, "name": name, "email": email,
-        "guests": guests_count, "location": location,
+        "rsvp_date": rsvp_date,
+        "name": name,
+        "email": email,
+        "username": username,
+        "guests": guests_count,
+        "location": location,
         "timestamp": pd.Timestamp.now().isoformat()
     }])
     rsvp = pd.concat([rsvp, new_row], ignore_index=True)
